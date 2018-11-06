@@ -4,7 +4,6 @@ import br.com.turismo.core.dao.CartaoCreditoDAO;
 import br.com.turismo.core.dao.ClienteDAO;
 import br.com.turismo.core.dao.EnderecoDAO;
 import br.com.turismo.core.dao.IDAO;
-import br.com.turismo.core.dao.VooDAO;
 import br.com.turismo.core.negocio.ClienteDadosObrigatorios;
 import br.com.turismo.core.negocio.IStrategy;
 import br.com.turismo.core.negocio.ValidarEmail;
@@ -48,7 +47,6 @@ public class Fachada implements IFachada {
         regras = new HashMap<String, Map<String, List<IStrategy>>>();
 
         /* Criando instancias dos DAOs a serem utilizados*/
-        VooDAO vooDAO = new VooDAO();
         EnderecoDAO enderecoDAO = new EnderecoDAO();
         CartaoCreditoDAO cartaoDAO = new CartaoCreditoDAO();
         ClienteDAO clienteDAO = new ClienteDAO();

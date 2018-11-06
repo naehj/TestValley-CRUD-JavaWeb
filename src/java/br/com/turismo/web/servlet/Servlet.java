@@ -15,7 +15,6 @@ import br.com.turismo.web.command.VisualizarCommand;
 import br.com.turismo.web.vh.CartaoCreditoViewHelper;
 import br.com.turismo.web.vh.ClienteViewHelper;
 import br.com.turismo.web.vh.IViewHelper;
-import br.com.turismo.web.vh.VooViewHelper;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,10 +65,6 @@ public class Servlet extends HttpServlet {
     	/*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
     	 */
-    	vhs.put("/Turismo/voo/salvar", new VooViewHelper());
-        vhs.put("/Turismo/voo/atualizar", new VooViewHelper());
-        vhs.put("/Turismo/voo/consultar", new VooViewHelper());
-        vhs.put("/Turismo/voo/excluir", new VooViewHelper());
         vhs.put("/Turismo/clientes/salvar", new ClienteViewHelper());
         vhs.put("/Turismo/clientes/atualizar", new ClienteViewHelper());
         vhs.put("/Turismo/clientes/consultar", new ClienteViewHelper());
