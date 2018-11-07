@@ -63,26 +63,32 @@ public class ClienteDadosObrigatorios implements IStrategy {
         if (cliente.getEnd_De_Cobranca() == null) {
             msg = msg + "É necessário pelo menos um endereço de cobrança.\n";
         } else {
-            for (Endereco endereco : cliente.getEnd_De_Cobranca()) {
-                if (endereco.getCep() == null || endereco.getCep().trim().equals("")) {
-                    msg = msg + "CEP não informado.\n";
-                }
-
-                if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().equals("")) {
-                    msg = msg + "Logradouro não informado.\n";
-                }
-
-                if (endereco.getBairro() == null || endereco.getBairro().trim().equals("")) {
-                    msg = msg + "Bairro não informado.\n";
-                }
-
-                if (endereco.getCidade().getId() == null) {
-                    msg = msg + "Cidade não informado.\n";
-                }
-
+            if (cliente.getEnd_De_Cobranca().getCep() == null || cliente.getEnd_De_Cobranca().getCep().trim().equals("")) {
+                msg = msg + "CEP não informado.\n";
             }
+
+            if (cliente.getEnd_De_Cobranca().getLogradouro() == null || cliente.getEnd_De_Cobranca().getLogradouro().trim().equals("")) {
+                msg = msg + "Logradouro não informado.\n";
+            }
+
+            if (cliente.getEnd_De_Cobranca().getBairro() == null || cliente.getEnd_De_Cobranca().getBairro().trim().equals("")) {
+                msg = msg + "Bairro não informado.\n";
+            }
+
+            if (cliente.getEnd_De_Cobranca().getCidade() == null) {
+                msg = msg + "Cidade não informado.\n";
+            }
+
+            if (cliente.getEnd_De_Cobranca().getEstado() == null) {
+                msg = msg + "Estado não informado.\n";
+            }
+
+            if (cliente.getEnd_De_Cobranca().getPais() == null) {
+                msg = msg + "Estado não informado.\n";
+            }
+
         }
-        if (cliente.getEnd_De_Entrega()== null) {
+        if (cliente.getEnd_De_Entrega() == null) {
             msg = msg + "É necessário pelo menos um endereço de entrega.\n";
         } else {
             for (Endereco endereco : cliente.getEnd_De_Entrega()) {
@@ -98,14 +104,20 @@ public class ClienteDadosObrigatorios implements IStrategy {
                     msg = msg + "Bairro não informado.\n";
                 }
 
-                if (endereco.getCidade().getId() == null) {
+                if (endereco.getCidade() == null) {
                     msg = msg + "Cidade não informado.\n";
                 }
 
+                if (cliente.getEnd_De_Cobranca().getEstado() == null) {
+                    msg = msg + "Estado não informado.\n";
+                }
+
+                if (cliente.getEnd_De_Cobranca().getPais() == null) {
+                    msg = msg + "Estado não informado.\n";
+                }
             }
         }
         System.out.println(" cheguei no cliente dados eee3");
         return msg;
-
     }
 }
