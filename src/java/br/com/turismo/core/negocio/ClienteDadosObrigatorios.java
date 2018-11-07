@@ -6,7 +6,6 @@
 package br.com.turismo.core.negocio;
 
 import br.com.turismo.core.util.ConverteDate;
-import br.com.turismo.dominio.Cidade;
 import br.com.turismo.dominio.Cliente;
 import br.com.turismo.dominio.Endereco;
 import br.com.turismo.dominio.EntidadeDominio;
