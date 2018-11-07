@@ -8,23 +8,17 @@ import java.util.List;
  *
  * @author hisak
  */
+public class Cliente extends EntidadeDominio {
 
-public class Cliente extends EntidadeDominio{
-    
     private String nome;
     private String cpf;
     private String senha;
     private String email;
     private boolean status;
-    
-   
+    private Endereco end_de_cobranca;
+    private List<Endereco> end_de_entrega;
     private Date dtNascimento;
-    
-  
     private List<CartaoCredito> cartaoCredito = new ArrayList<>();
-    
-   
-    private Endereco endereco;
 
     public String getNome() {
         return nome;
@@ -58,8 +52,6 @@ public class Cliente extends EntidadeDominio{
         this.email = email;
     }
 
-   
-
     public Date getDtNascimento() {
         return dtNascimento;
     }
@@ -76,12 +68,20 @@ public class Cliente extends EntidadeDominio{
         this.cartaoCredito = cartaoCredito;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public Endereco getEnd_De_Cobranca() {
+        return end_de_cobranca;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setEnd_De_Cobranca(Endereco end_de_cobranca) {
+        this.end_de_cobranca = end_de_cobranca;
+    }
+
+    public List<Endereco> getEnd_De_Entrega() {
+        return end_de_entrega;
+    }
+
+    public void setEnd_De_Entrega(List<Endereco> end_de_entrega) {
+        this.end_de_entrega = end_de_entrega;
     }
 
     public boolean isStatus() {
@@ -92,5 +92,4 @@ public class Cliente extends EntidadeDominio{
         this.status = status;
     }
 
-    
 }
