@@ -8,6 +8,7 @@ package br.com.turismo.core.negocio;
 import br.com.turismo.core.util.ConverteDate;
 import br.com.turismo.dominio.Cidade;
 import br.com.turismo.dominio.Cliente;
+import br.com.turismo.dominio.Endereco;
 import br.com.turismo.dominio.EntidadeDominio;
 
 /**
@@ -18,27 +19,25 @@ public class ClienteDadosObrigatorios implements IStrategy {
 
     @Override
     public String processar(EntidadeDominio entidade) {
-    
+
         Cliente cliente = (Cliente) entidade;
         String msg = null;
-         if (cliente.getNome() == null || cliente.getNome().trim().equals("")) {
-                msg = msg + "Nome não informado.\n";
-            }
+        if (cliente.getNome() == null || cliente.getNome().trim().equals("")) {
+            msg = msg + "Nome não informado.\n";
+        }
 
-            if (cliente.getCpf() == null && cliente.getCpf().trim().equals("")) {
-                 msg = msg + "CPF não informado.\n";
-            }
+        if (cliente.getCpf() == null && cliente.getCpf().trim().equals("")) {
+            msg = msg + "CPF não informado.\n";
+        }
 
-            if (cliente.getEmail() == null || cliente.getEmail().trim().equals("")) {
-                msg = msg + "Email não informado.\n";
-            }
+        if (cliente.getEmail() == null || cliente.getEmail().trim().equals("")) {
+            msg = msg + "Email não informado.\n";
+        }
 
-         
-
-            if (cliente.getDtNascimento() == null) {
-               msg = msg + "Data de nascimento não informado.\n";
-            }
-          /*  if (numeroCartao = null && numeroCartao.trim().equals("")) {
+        if (cliente.getDtNascimento() == null) {
+            msg = msg + "Data de nascimento não informado.\n";
+        }
+        /*  if (numeroCartao = null && numeroCartao.trim().equals("")) {
                 cartao.setNumero(numeroCartao);
             }
 
@@ -60,28 +59,53 @@ public class ClienteDadosObrigatorios implements IStrategy {
             if (nomeCartao == null && nomeCartao.trim().equals("")) {
                 cartao.setNome(nomeCartao);
             }
-*/
-   if (cliente.getEndereco().getCep()== null || cliente.getEndereco().getCep().trim().equals("")) {
-                msg = msg + "Logradouro não informado.\n";
-            }
+         */
+        if (cliente.getEnd_De_Cobranca() == null) {
+            msg = msg + "É necessário pelo menos um endereço de cobrança.\n";
+        } else {
+            for (Endereco endereco : cliente.getEnd_De_Cobranca()) {
+                if (endereco.getCep() == null || endereco.getCep().trim().equals("")) {
+                    msg = msg + "CEP não informado.\n";
+                }
 
-       
-            if (cliente.getEndereco().getLogradouro() == null || cliente.getEndereco().getLogradouro().trim().equals("")) {
-                msg = msg + "Logradouro não informado.\n";
-            }
+                if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().equals("")) {
+                    msg = msg + "Logradouro não informado.\n";
+                }
 
-            if (cliente.getEndereco().getBairro() == null || cliente.getEndereco().getBairro().trim().equals("")) {
-                msg = msg + "Bairro não informado.\n";
-            }
+                if (endereco.getBairro() == null || endereco.getBairro().trim().equals("")) {
+                    msg = msg + "Bairro não informado.\n";
+                }
 
-        
-            if (cliente.getEndereco().getCidade().getId() == null ) {
-                msg = msg + "Cidade não informado.\n";
-            }
+                if (endereco.getCidade().getId() == null) {
+                    msg = msg + "Cidade não informado.\n";
+                }
 
-          
-             System.out.println(" cheguei no cliente dados eee3");
-            return msg;
+            }
+        }
+        if (cliente.getEnd_De_Entrega()== null) {
+            msg = msg + "É necessário pelo menos um endereço de entrega.\n";
+        } else {
+            for (Endereco endereco : cliente.getEnd_De_Entrega()) {
+                if (endereco.getCep() == null || endereco.getCep().trim().equals("")) {
+                    msg = msg + "CEP não informado.\n";
+                }
+
+                if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().equals("")) {
+                    msg = msg + "Logradouro não informado.\n";
+                }
+
+                if (endereco.getBairro() == null || endereco.getBairro().trim().equals("")) {
+                    msg = msg + "Bairro não informado.\n";
+                }
+
+                if (endereco.getCidade().getId() == null) {
+                    msg = msg + "Cidade não informado.\n";
+                }
+
+            }
+        }
+        System.out.println(" cheguei no cliente dados eee3");
+        return msg;
+
     }
-    
 }
