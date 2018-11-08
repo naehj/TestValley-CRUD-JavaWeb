@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-        <link rel="stylesheet" href="./style/css/bootstrap.min.css">
+        <c:import  url="elements/header.jsp"/>
         <title>Turismo</title>
     </head>
     <body>
@@ -50,9 +50,7 @@
 
 
         <!-- Bootstrap core JavaScript -->
-        <script src="../style/js/jquery-3.3.1.min.js"></script>
-        <script src="../style/js/popper.min.js"></script>
-        <script src="../style/js/bootstrap.min.js"></script>
+        <c:import  url="elements/footer.jsp"/>
     </body>
 </html>
 

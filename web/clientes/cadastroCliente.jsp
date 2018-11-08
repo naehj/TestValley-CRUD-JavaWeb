@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Turismo</title>
-        <link rel="stylesheet" href="../style/css/bootstrap.min.css">
+        <c:import  url="../elements/header.jsp"/>
 
         <script type="text/javascript">
             // mascara para a data de nascimento
