@@ -14,7 +14,7 @@ public class Cliente extends EntidadeDominio {
     private String cpf;
     private String senha;
     private String email;
-    private boolean status;
+    private String genero;
     private Endereco end_de_cobranca;
     private List<Endereco> end_de_entrega;
     private Date dtNascimento;
@@ -51,6 +51,14 @@ public class Cliente extends EntidadeDominio {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
 
     public Date getDtNascimento() {
         return dtNascimento;
@@ -82,14 +90,6 @@ public class Cliente extends EntidadeDominio {
 
     public void setEnd_De_Entrega(List<Endereco> end_de_entrega) {
         this.end_de_entrega = end_de_entrega;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
 }

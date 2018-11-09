@@ -16,8 +16,6 @@ public class CartaoCredito extends EntidadeDominio {
     private String nome;
     private String bandeira;
 
-    private int cliente;
-
     public String getNumero() {
         return numero;
     }
@@ -40,14 +38,6 @@ public class CartaoCredito extends EntidadeDominio {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public int getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(int cliente) {
-        this.cliente = cliente;
     }
 
     public String getBandeira() {
