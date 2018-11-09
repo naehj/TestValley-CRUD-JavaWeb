@@ -70,10 +70,6 @@ public class ClienteDadosObrigatorios implements IStrategy {
                 msg = msg + "Logradouro não informado.\n";
             }
 
-            if (cliente.getEnd_De_Cobranca().getBairro() == null || cliente.getEnd_De_Cobranca().getBairro().trim().equals("")) {
-                msg = msg + "Bairro não informado.\n";
-            }
-
             if (cliente.getEnd_De_Cobranca().getCidade() == null) {
                 msg = msg + "Cidade não informado.\n";
             }
@@ -97,10 +93,6 @@ public class ClienteDadosObrigatorios implements IStrategy {
 
                 if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().equals("")) {
                     msg = msg + "Logradouro não informado.\n";
-                }
-
-                if (endereco.getBairro() == null || endereco.getBairro().trim().equals("")) {
-                    msg = msg + "Bairro não informado.\n";
                 }
 
                 if (endereco.getCidade() == null) {
