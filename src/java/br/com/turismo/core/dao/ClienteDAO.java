@@ -7,7 +7,6 @@ package br.com.turismo.core.dao;
 
 import br.com.turismo.core.util.Conexao;
 import br.com.turismo.dominio.CartaoCredito;
-import br.com.turismo.dominio.Cidade;
 import br.com.turismo.dominio.Cliente;
 import br.com.turismo.dominio.Endereco;
 import br.com.turismo.dominio.EntidadeDominio;
@@ -26,63 +25,64 @@ import java.util.List;
  */
 public class ClienteDAO implements IDAO {
     
-    Endereco endereco;
-    CartaoCredito cartao;
     EnderecoDAO endDAO;
     CartaoCreditoDAO cartaoDAO;
     PreparedStatement pst;
     Connection conexao;
-    
+
     @Override
     public void salvar(EntidadeDominio entidade) {
         Cliente cliente = (Cliente) entidade;
 
-        //Salvando endereco
-        endereco = cliente.getEndereco();
+        //Salvando endereco de Cobrança
         endDAO = new EnderecoDAO();
-        int id;
-        id = endDAO.salvarId(endereco);
-       
+        endDAO.salvarId_Cobranca(cliente);
+
         try {
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
-            
+
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO cliente( dtcadastro, cpf, dtnascimento, email, nome, senha, status, endereco_id)");
-            sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            sql.append("INSERT INTO tb_cliente (dt_cadastro, nome, cpf, genero, dt_nascimento, email, senha)");
+            sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?)");
             pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-            
+
             pst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
-            
-            pst.setString(2, cliente.getCpf());
+            pst.setString(2, cliente.getNome());
+            pst.setString(3, cliente.getCpf());
+            pst.setString(4, cliente.getGenero());
             java.sql.Date dataSQL = new Date(cliente.getDtNascimento().getTime());
-            pst.setDate(3, dataSQL);
-            
-            pst.setString(4, cliente.getEmail());
-            pst.setString(5, cliente.getNome());
-            pst.setString(6, cliente.getSenha());
-            
-            pst.setBoolean(7, true);
-            pst.setInt(8, id);
-        
+            pst.setDate(5, dataSQL);
+            pst.setString(6, cliente.getEmail());
+            pst.setString(7, cliente.getSenha());
+
             pst.execute();
             ResultSet generatedKeys = pst.getGeneratedKeys();
             if (null != generatedKeys && generatedKeys.next()) {
                 cliente.setId(generatedKeys.getInt(1));
             }
-           
-            // salvando cartão
+
+            //Salvando endereços de entrega
+            if (!cliente.getEnd_De_Entrega().equals(null)) {
+                for (Endereco endereco : cliente.getEnd_De_Entrega()) {
+                    endDAO.salvarId_Entrega(cliente, endereco);
+                }
+            }
+
+            // Salvando cartões
             if (!cliente.getCartaoCredito().equals(null)) {
                 cartaoDAO = new CartaoCreditoDAO();
-                int ind = cartaoDAO.salvarId(cliente);
+                for (CartaoCredito cartao : cliente.getCartaoCredito()) {
+                    cartaoDAO.salvarId_Cartao(cliente, cartao);
+                }
             }
-            
+
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
-            
+
         } catch (SQLException erro) {
             erro.printStackTrace();
-        
+
         } finally {
             try {
                 pst.close();
@@ -91,65 +91,38 @@ public class ClienteDAO implements IDAO {
                 e.printStackTrace();
             }
         }
-        
+
     }
-    
+
     @Override
     public void atualizar(EntidadeDominio entidade) {
         Cliente cliente = (Cliente) entidade;
-        
+
         if (cliente.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
                 conexao = Conexao.getConexao();
-                
+
                 StringBuilder sql = new StringBuilder();
-                sql.append("UPDATE cliente SET cpf=?, dtnascimento=?, email=?, nome=? WHERE id=?");
-                
+                sql.append("UPDATE cliente SET cpf=?, dtnascimento=?, email=?, nome=?, senha=?, genero=? WHERE id=?");
+
                 pst = conexao.prepareStatement(sql.toString());
                 pst.setString(1, cliente.getCpf());
                 java.sql.Date dataSQL = new Date(cliente.getDtNascimento().getTime());
                 pst.setDate(2, dataSQL);
                 pst.setString(3, cliente.getEmail());
                 pst.setString(4, cliente.getNome());
-                pst.setInt(5, cliente.getId());
+                pst.setString(5, cliente.getSenha());
+                pst.setString(6, cliente.getGenero());
+                pst.setInt(7, cliente.getId());
                 pst.execute();
-                
+
             } catch (ClassNotFoundException erro) {
                 erro.printStackTrace();
-               
+
             } catch (SQLException erro) {
                 erro.printStackTrace();
-            
-            } finally {
-                try {
-                    pst.close();
-                    conexao.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                // Abre uma conexao com o banco.
-                conexao = Conexao.getConexao();
-                
-                StringBuilder sql = new StringBuilder();
-                sql.append("UPDATE cliente SET cpf=?, dtnascimento=?, email=?, nome=? WHERE id=?");
-                
-                pst = conexao.prepareStatement(sql.toString());
-                pst.setString(1, cliente.getCpf());
-                pst.setDate(2, null);
-                pst.setString(3, cliente.getEmail());
-                pst.setString(4, cliente.getNome());
-                pst.setInt(5, cliente.getId());
-                pst.execute();
-                
-            } catch (ClassNotFoundException erro) {
-                erro.printStackTrace();
-           
-            } catch (SQLException erro) {
-                erro.printStackTrace();
-             
+
             } finally {
                 try {
                     pst.close();
@@ -160,30 +133,42 @@ public class ClienteDAO implements IDAO {
             }
         }
     }
-    
+
     @Override
-    public void excluir(EntidadeDominio entidade) {
+    public void excluir(EntidadeDominio entidade
+    ) {
         Cliente cliente = (Cliente) entidade;
-        cliente.setStatus(false);
         if (cliente.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
                 conexao = Conexao.getConexao();
-                
+                endDAO.excluir_Cobranca(cliente.getEnd_De_Cobranca());
+                if (!cliente.getEnd_De_Entrega().equals(null)) {
+                    for (Endereco endereco : cliente.getEnd_De_Entrega()) {
+                        endDAO.excluir_Entrega(endereco);
+                    }
+                }
+
+                if (!cliente.getCartaoCredito().equals(null)) {
+                    cartaoDAO = new CartaoCreditoDAO();
+                    for (CartaoCredito cartao : cliente.getCartaoCredito()) {
+                        cartaoDAO.excluir(cartao);
+                    }
+                }
+
                 StringBuilder sql = new StringBuilder();
-                sql.append("UPDATE cliente SET status=? WHERE id=?");
-                
+                sql.append("DELET FROM tb_cliente * WHERE id=?");
+
                 pst = conexao.prepareStatement(sql.toString());
-                pst.setBoolean(1, cliente.isStatus());
-                pst.setInt(2, cliente.getId());
+                pst.setInt(1, cliente.getId());
                 pst.execute();
-                
+
             } catch (ClassNotFoundException erro) {
                 erro.printStackTrace();
-           
+
             } catch (SQLException erro) {
                 erro.printStackTrace();
-          
+
             } finally {
                 try {
                     pst.close();
@@ -194,99 +179,39 @@ public class ClienteDAO implements IDAO {
             }
         }
     }
+
     
-    public List<EntidadeDominio> filtrar(EntidadeDominio entidade) throws SQLException {
+
+    @Override
+    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
+
         List<EntidadeDominio> clientes = null;
-        Cliente filtro = (Cliente) entidade;
-        
-        StringBuilder sql = new StringBuilder();
-            sql.append("SELECT c.id,c.nome as nome,c.cpf,c.status,c.email, ");
-            sql.append("e.id,e.logradouro, cid.id, cid.cidade, cc.id, cc.nome ");
-            sql.append("FROM cliente c join endereco e ON c.endereco_id=e.id ");
-            sql.append("JOIN cartaocredito cc ON c.id=cc.cliente_id ");
-            sql.append("JOIN cidade cid ON cid.id=e.cidade_id ");
-            sql.append("WHERE c.status=? ");
-            if (filtro.getNome() != null && !filtro.getNome().equals("")) {
-                sql.append("AND unaccent(c.nome) ILIKE unaccent('%' || ? || '%') ");
-            }
-             if (filtro.getEmail() != null && !filtro.getEmail().equals("")) {
-                sql.append("AND  unaccent(c.email) ILIKE  unaccent('%' || ? || '%') ");
-            }
-            if (filtro.getEndereco().getLogradouro() != null && !filtro.getEndereco().getLogradouro().equals("")) {
-                sql.append("AND  unaccent(e.logradouro) ilike  unaccent('%' || ? || '%') ");
-            }
-            if (filtro.getEndereco().getCidade().getId() != null) {
-                
-                sql.append("AND  cid.id=? ");
-            }
-            if (filtro.getCartaoCredito().get(0).getNome() != null && !filtro.getCartaoCredito().get(0).getNome().equals("")) {
-                
-                sql.append("AND  unaccent(cc.nome) ilike  unaccent('%' || ? || '%') ");
-            };
-        
-        
+        Cliente cliente = (Cliente) entidade;
+        System.out.println("cliente dao" + cliente.getId());
+
         try {
 
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
-            
-           int i =2;
-            
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM tb_cliente WHERE id=?");
             pst = conexao.prepareStatement(sql.toString());
-            pst.setBoolean(1, filtro.isStatus());
-            
-            if (filtro.getNome() != null && !filtro.getNome().equals("")) {
-                pst.setString(i, filtro.getNome());
-                i++;
-            }
-           
-            if (filtro.getEmail() != null && !filtro.getEmail().equals("")) {
-                pst.setString(i, filtro.getEmail());
-                  i++;
-            }
-            
-            if (filtro.getEndereco().getLogradouro() != null && !filtro.getEndereco().getLogradouro().equals("")) {
-                pst.setString(i, filtro.getEndereco().getLogradouro());
-                  i++;
-            }
-            
-            if (filtro.getEndereco().getCidade().getId() != null && !filtro.getEndereco().getCidade().getId().equals("")) {
-                
-                pst.setInt(i, filtro.getEndereco().getCidade().getId());
-                  i++;
-            }
-            
-            if (filtro.getCartaoCredito().get(0).getNome() != null && !filtro.getCartaoCredito().get(0).getNome().equals("")) {
-                pst.setString(i, filtro.getCartaoCredito().get(0).getNome());
-                  i++;
-            }
-            
+            pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
-            clientes = new ArrayList<>();
+            System.out.println("clientexx" + cliente.getId());
             while (rs.next()) {
-                Cliente cliente = new Cliente();
-                endereco = new Endereco();
-                Cidade cidade = new Cidade();
-                cartao = new CartaoCredito();
-                
-                cliente.setId(rs.getInt(1));
-                cliente.setNome(rs.getString(2));
-                cliente.setCpf(rs.getString(3));
-                cliente.setStatus(rs.getBoolean(4));
-                cliente.setEmail(rs.getString(5));
-                endereco.setId(rs.getInt(6));
-                endereco.setLogradouro(rs.getString(7));
-                cidade.setId(rs.getInt(8));
-                cidade.setCidade(rs.getString(9));
-                cartao.setId(rs.getInt(10));
-                cartao.setNome(rs.getString(11));
-                cartao.setCliente(cliente.getId());
-                cliente.getCartaoCredito().add(cartao);
-                endereco.setCidade(cidade);
-                cliente.setEndereco(endereco);
-                clientes.add(cliente);
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setDtNascimento(rs.getDate("dt_nascimento"));
+                cliente.setDtCadastro(rs.getDate("dt_cadastro"));
+                cliente.setGenero(rs.getString("genero"));
+                cliente.setSenha(rs.getString("senha"));
             }
-            
+            cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca(cliente));
+            cliente.setEnd_De_Entrega(endDAO.consultar_Entrega(cliente));
+            cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de configuração");
@@ -301,7 +226,8 @@ public class ClienteDAO implements IDAO {
                 e.printStackTrace();
             }
         }
-        
+        clientes = new ArrayList<>();
+        clientes.add(cliente);
         return clientes;
     }
     
@@ -309,130 +235,9 @@ public class ClienteDAO implements IDAO {
     public int salvarId(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
-        
-        List<EntidadeDominio> clientes = null;
-        Cliente cliente = (Cliente) entidade;
-        endereco = new Endereco();
-        Cidade cidade = new Cidade();
-        System.out.println("cliente dao" + cliente.getId());
-        
-        try {
-
-            // Abre uma conexao com o banco.
-            conexao = Conexao.getConexao();
-            
-            StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM cliente WHERE id=?");
-            pst = conexao.prepareStatement(sql.toString());
-            pst.setInt(1, cliente.getId());
-            ResultSet rs = pst.executeQuery();
-             System.out.println("clientexx" + cliente.getId());
-            while (rs.next()) {
-                cliente.setNome(rs.getString("nome"));
-                cliente.setCpf(rs.getString("cpf"));
-                cliente.setStatus(rs.getBoolean("status"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setDtNascimento(rs.getDate("dtnascimento"));
-                endereco.setId(rs.getInt("endereco_id"));
-                cliente.setEndereco(endereco);
-            }
-            System.out.println("cliente" + cliente.getNome());
-        } catch (ClassNotFoundException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
-        } catch (SQLException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-         try {
-
-            // Abre uma conexao com o banco.
-            conexao = Conexao.getConexao();
-            
-            StringBuilder sql = new StringBuilder();
-        
-            sql.append("SELECT * FROM endereco WHERE id=?");
-            pst = conexao.prepareStatement(sql.toString());
-            pst.setInt(1, cliente.getEndereco().getId());
-            ResultSet rs = pst.executeQuery();
-             System.out.println("clientev" + cliente.getEndereco().getId());
-             System.out.println("clientev" + endereco.getId());
-            while (rs.next()) {
-                
-                endereco.setLogradouro(rs.getString("logradouro"));
-                endereco.setNumero(rs.getString("numero"));
-                endereco.setComplemento(rs.getString("complemento"));
-                endereco.setBairro(rs.getString("bairro"));
-                endereco.setCep(rs.getString("cep"));
-                cidade.setId(rs.getInt("cidade_id"));
-                endereco.setCidade(cidade);
-            }
-             System.out.println("end " + cliente.getId() + "  "+cidade.getId());
-                     } catch (ClassNotFoundException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
-        } catch (SQLException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-         }
-         try {
-
-            // Abre uma conexao com o banco.
-            conexao = Conexao.getConexao();
-            
-            StringBuilder sql = new StringBuilder();
-        
-            sql.append("SELECT * FROM cartaocredito WHERE cliente_id=?");
-            pst = conexao.prepareStatement(sql.toString());
-            pst.setInt(1, cliente.getId());
-            ResultSet rs = pst.executeQuery();
-            List<CartaoCredito> cartoes = new ArrayList<>();
-            while (rs.next()) {
-                cartao = new CartaoCredito();
-                cartao.setAno(rs.getString("ano"));
-                cartao.setMes(rs.getString("mes"));
-                cartao.setNome(rs.getString("nome"));
-                cartao.setNumero(rs.getString("numero"));
-                cartao.setCodigo(rs.getString("codigo"));
-                cartao.setBandeira(rs.getString("bandeira"));
-                System.out.println("  Cartao " +cartao.getNome());
-               cartoes.add(cartao);
-            }
-            cliente.setCartaoCredito(cartoes);
-        } catch (ClassNotFoundException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
-        } catch (SQLException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-         }
-         cliente.setEndereco(endereco);
-         clientes = new ArrayList<>();
-         clientes.add(cliente);
-    return clientes;
+    public List<EntidadeDominio> filtrar(EntidadeDominio entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
