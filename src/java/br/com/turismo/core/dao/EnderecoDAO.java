@@ -222,7 +222,7 @@ public class EnderecoDAO implements IDAO {
     }
 
     public List<Endereco> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
-        List<EntidadeDominio> enderecos = null;
+        List<Endereco> enderecos = null;
         Cliente cliente = (Cliente) entidade;
         Endereco endereco = null;
         try {
@@ -247,10 +247,12 @@ public class EnderecoDAO implements IDAO {
                 endereco.setPais(rs.getString("pais"));
                 endereco.setTipoLogradouro(rs.getString("tipo_logradouro"));
                 endereco.setTipoResidencia(rs.getString("tipo_residencia"));
+                enderecos.add(endereco);
             }
-
+            
             // Fecha a conexao.
             conexao.close();
+            return enderecos;
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de configuração");
