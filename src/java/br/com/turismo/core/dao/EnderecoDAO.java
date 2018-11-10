@@ -175,7 +175,7 @@ public class EnderecoDAO implements IDAO {
         }
     }
 
-    public Endereco consultar_Cobranca(EntidadeDominio entidade) throws SQLException {
+    public Endereco consultar_Cobranca_Por_Cliente(EntidadeDominio entidade) throws SQLException {
         Cliente cliente = (Cliente) entidade;
         Endereco endereco = null;
         try {
@@ -221,7 +221,7 @@ public class EnderecoDAO implements IDAO {
         return endereco;
     }
 
-    public List<Endereco> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
+    public List<Endereco> consultar_Entrega_Por_Cliente(EntidadeDominio entidade) throws SQLException {
         List<Endereco> enderecos = null;
         Cliente cliente = (Cliente) entidade;
         Endereco endereco = null;
@@ -269,6 +269,98 @@ public class EnderecoDAO implements IDAO {
         }
         return null;
     }
+    
+    public Endereco consultar_Cobranca_Por_Endereco(EntidadeDominio entidade) throws SQLException {
+        Endereco endereco = (Endereco) entidade;
+        try {
+            // Abre uma conexao com o banco.
+            conexao = Conexao.getConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM tb_endereco_cobranca INNER JOIN tb_cliente_endereco_cobranca WHERE id_end=?");
+            pst = conexao.prepareStatement(sql.toString());
+            pst.setInt(1, endereco.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                endereco = new Endereco();
+                endereco.setCep(rs.getString("cep"));
+                endereco.setCidade(rs.getString("cidade"));
+                endereco.setComplemento(rs.getString("complemento"));
+                endereco.setDtCadastro(rs.getDate("dt_cadastro"));
+                endereco.setEstado(rs.getString("estado"));
+                endereco.setId(rs.getInt("id_end"));
+                endereco.setLogradouro(rs.getString("logradouro"));
+                endereco.setNumero(rs.getString("numero"));
+                endereco.setPais(rs.getString("pais"));
+                endereco.setTipoLogradouro(rs.getString("tipo_logradouro"));
+                endereco.setTipoResidencia(rs.getString("tipo_residencia"));
+            }
+
+            // Fecha a conexao.
+            conexao.close();
+        } catch (ClassNotFoundException erro) {
+            erro.printStackTrace();
+            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
+        } catch (SQLException erro) {
+            erro.printStackTrace();
+            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
+        } finally {
+            try {
+                pst.close();
+                conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return endereco;
+    }
+
+    public Endereco consultar_Entrega_Por_Endereco(EntidadeDominio entidade) throws SQLException {
+        Endereco endereco = (Endereco) entidade;
+        try {
+            // Abre uma conexao com o banco.
+            conexao = Conexao.getConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega WHERE id_end=?");
+            pst = conexao.prepareStatement(sql.toString());
+            pst.setInt(1, endereco.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                endereco = new Endereco();
+                endereco.setCep(rs.getString("cep"));
+                endereco.setCidade(rs.getString("cidade"));
+                endereco.setComplemento(rs.getString("complemento"));
+                endereco.setDtCadastro(rs.getDate("dt_cadastro"));
+                endereco.setEstado(rs.getString("estado"));
+                endereco.setId(rs.getInt("id_end"));
+                endereco.setLogradouro(rs.getString("logradouro"));
+                endereco.setNumero(rs.getString("numero"));
+                endereco.setPais(rs.getString("pais"));
+                endereco.setTipoLogradouro(rs.getString("tipo_logradouro"));
+                endereco.setTipoResidencia(rs.getString("tipo_residencia"));
+            }
+            
+            // Fecha a conexao.
+            conexao.close();
+            return endereco;
+        } catch (ClassNotFoundException erro) {
+            erro.printStackTrace();
+            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
+        } catch (SQLException erro) {
+            erro.printStackTrace();
+            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
+        } finally {
+            try {
+                pst.close();
+                conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 
     public int salvarId_Cobranca(EntidadeDominio entidade) {
         System.out.println("Estou  na dao de endereco");

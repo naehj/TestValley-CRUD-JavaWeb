@@ -209,8 +209,8 @@ public class ClienteDAO implements IDAO {
                 cliente.setGenero(rs.getString("genero"));
                 cliente.setSenha(rs.getString("senha"));
             }
-            cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca(cliente));
-            cliente.setEnd_De_Entrega(endDAO.consultar_Entrega(cliente));
+            cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca_Por_Cliente(cliente));
+            cliente.setEnd_De_Entrega(endDAO.consultar_Entrega_Por_Cliente(cliente));
             cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
