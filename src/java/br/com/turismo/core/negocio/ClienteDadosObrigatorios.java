@@ -70,18 +70,29 @@ public class ClienteDadosObrigatorios implements IStrategy {
                 msg = msg + "Logradouro não informado.\n";
             }
 
-            if (cliente.getEnd_De_Cobranca().getCidade() == null) {
-                msg = msg + "Cidade não informado.\n";
+            if (cliente.getEnd_De_Cobranca().getCidade() == null || cliente.getEnd_De_Cobranca().getCidade().trim().equals("")) {
+                msg = msg + "Cidade não informada.\n";
             }
 
-            if (cliente.getEnd_De_Cobranca().getEstado() == null) {
+            if (cliente.getEnd_De_Cobranca().getEstado() == null || cliente.getEnd_De_Cobranca().getEstado().trim().equals("")) {
                 msg = msg + "Estado não informado.\n";
             }
 
-            if (cliente.getEnd_De_Cobranca().getPais() == null) {
-                msg = msg + "Estado não informado.\n";
+            if (cliente.getEnd_De_Cobranca().getPais() == null || cliente.getEnd_De_Cobranca().getPais().trim().equals("")) {
+                msg = msg + "País não informado.\n";
+            }
+            
+            if (cliente.getEnd_De_Cobranca().getNumero()== null || cliente.getEnd_De_Cobranca().getNumero().trim().equals("")) {
+                msg = msg + "Número não informado.\n";
             }
 
+            if (cliente.getEnd_De_Cobranca().getTipoLogradouro() == null || cliente.getEnd_De_Cobranca().getTipoLogradouro().trim().equals("")) {
+                msg = msg + "Tipo de logradouro não informado.\n";
+            }
+
+            if (cliente.getEnd_De_Cobranca().getTipoResidencia() == null || cliente.getEnd_De_Cobranca().getTipoResidencia().trim().equals("")) {
+                msg = msg + "Tipo de residência não informada.\n";
+            }
         }
         if (cliente.getEnd_De_Entrega() == null) {
             msg = msg + "É necessário pelo menos um endereço de entrega.\n";
@@ -95,16 +106,27 @@ public class ClienteDadosObrigatorios implements IStrategy {
                     msg = msg + "Logradouro não informado.\n";
                 }
 
-                if (endereco.getCidade() == null) {
-                    msg = msg + "Cidade não informado.\n";
+                if (endereco.getCidade() == null || endereco.getCidade().trim().equals("")) {
+                    msg = msg + "Cidade não informada.\n";
                 }
 
-                if (cliente.getEnd_De_Cobranca().getEstado() == null) {
+                if (endereco.getEstado() == null || endereco.getEstado().trim().equals("")) {
                     msg = msg + "Estado não informado.\n";
                 }
 
-                if (cliente.getEnd_De_Cobranca().getPais() == null) {
-                    msg = msg + "Estado não informado.\n";
+                if (endereco.getPais() == null || endereco.getPais().trim().equals("")) {
+                    msg = msg + "País não informado.\n";
+                }
+                if (endereco.getNumero()== null || endereco.getNumero().trim().equals("")) {
+                    msg = msg + "Número não informado.\n";
+                }
+
+                if (endereco.getTipoLogradouro()== null || endereco.getTipoLogradouro().trim().equals("")) {
+                    msg = msg + "Tipo de logradouro não informado.\n";
+                }
+
+                if (endereco.getTipoResidencia() == null || endereco.getTipoResidencia().trim().equals("")) {
+                    msg = msg + "Tipo de residência não informada.\n";
                 }
             }
         }
