@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +31,8 @@ public class CartaoCreditoDAO implements IDAO {
     @Override
     public void atualizar(EntidadeDominio entidade) throws SQLException {
 
-        Cliente cliente = (Cliente) entidade;
-        cartao = new CartaoCredito();
-        cartao = cliente.getCartaoCredito().get(0);
+        cartao = (CartaoCredito) entidade;
+       
         if (cartao.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
@@ -72,9 +72,7 @@ public class CartaoCreditoDAO implements IDAO {
     @Override
     public void excluir(EntidadeDominio entidade) throws SQLException {
 
-        Cliente cliente = (Cliente) entidade;
-        cartao = new CartaoCredito();
-        cartao = cliente.getCartaoCredito().get(0);
+        cartao = (CartaoCredito) entidade;
         if (cartao.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
@@ -82,11 +80,9 @@ public class CartaoCreditoDAO implements IDAO {
 
                 StringBuilder sql = new StringBuilder();
 
-                sql.append("UPDATE cartaocredito SET status=? WHERE id=?");
+                sql.append("DELETE FROM tb_cartao * WHERE id=?");
                 PreparedStatement pst = conexao.prepareStatement(sql.toString());
-
-                pst.setBoolean(1, cartao.isPreferencia());
-                pst.setInt(2, cartao.getId());
+                pst.setInt(1, cartao.getId());
                 pst.execute();
 
                 // Fecha a conexao.
@@ -114,25 +110,25 @@ public class CartaoCreditoDAO implements IDAO {
         List<EntidadeDominio> cartoes = null;
 
         Cliente cliente = (Cliente) entidade;
-        cartao = new CartaoCredito();
-        cartao = cliente.getCartaoCredito().get(0);
         try {
             // Abre uma conexao com o banco.
             Connection conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO cartaocredito( dtCadastro, ano, bandeira, codigo, mes, nome, numero, preferencia, status, cliente_id)");
-            sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            sql.append("SELECT FROM tb_cartao INNER JOIN tb_cliente_cartao * WHERE id_cli=?");
             PreparedStatement pst = conexao.prepareStatement(sql.toString());
-            Timestamp time = new Timestamp(cartao.getDtCadastro().getTime());
-            pst.setTimestamp(1, time);
-            pst.setString(3, cartao.getBandeira());
-            pst.setString(4, cartao.getCodigo());
-            pst.setString(6, cartao.getNome());
-            pst.setString(7, cartao.getNumero());
-            pst.setBoolean(9, true);
-            pst.setInt(7, cliente.getId());
-            pst.execute();
+            pst.setInt(1, cliente.getId());
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                cartao = new CartaoCredito();
+                cartao.setBandeira(rs.getString("bandeira"));
+                cartao.setCodigo(rs.getString("codigo"));
+                cartao.setNumero(rs.getString("n_cartao"));
+                cartao.setId(Integer.parseInt("id_cartao"));
+                cartao.setDtCadastro(rs.getDate("dtcadastro"));
+                cartao.setNome(rs.getString("nome"));
+                cartoes.add(cartao);
+            }
 
             // Fecha a conexao.
             conexao.close();
@@ -153,50 +149,36 @@ public class CartaoCreditoDAO implements IDAO {
 
         return cartoes;
     }
-
-    @Override
-    public int salvarId(EntidadeDominio entidade) throws SQLException {
-        Cliente cliente = (Cliente) entidade;
-        cartao = new CartaoCredito();
-        cartao = cliente.getCartaoCredito().get(0);
+    
+    public int salvarId_Cartao(EntidadeDominio entidade_cli, EntidadeDominio entidade_cartao) throws SQLException {
+        Cliente cliente = (Cliente) entidade_cli;
+        cartao = (CartaoCredito) entidade_cartao;
 
         try {
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO tb_cartao(n_cartao, nome, bandeira, codigo)");
-            sql.append(" VALUES(?, ?, ?, ?)");
-            pst = conexao.prepareStatement(sql.toString());
+            sql.append("INSERT INTO tb_cartao(n_cartao, nome, bandeira, codigo, dtcadastro)");
+            sql.append(" VALUES(?, ?, ?, ?, ?)");
+            pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, cartao.getNumero());
             pst.setString(2, cartao.getNome());
             pst.setString(3, cartao.getBandeira());
             pst.setString(4, cartao.getCodigo());
+            pst.setDate(5, new java.sql.Date(System.currentTimeMillis()));
             pst.execute();
-            int id_cliente = 0;
+            ResultSet generatedKeys = pst.getGeneratedKeys();
+            if (null != generatedKeys && generatedKeys.next()) {
+                cartao.setId(generatedKeys.getInt(1));
+            }
             StringBuilder sql2 = new StringBuilder();
-            sql2.append("SELEC id_cli FROM tb_cliente WHERE cpf=");
-            sql2.append(cliente.getCpf());
+            sql2.append("INSERT INTO tb_cliente_cartao(id_cartao, id_cli)");
+            sql2.append("VALUES(?, ?)");
             pst = conexao.prepareStatement(sql2.toString());
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                id_cliente = rs.getInt("id_cli");
-            }
-            int id_cartao = 0;
-            StringBuilder sql3 = new StringBuilder();
-            sql3.append("SELEC id_cartao FROM tb_cartao WHERE n_cartao=");
-            sql3.append(cartao.getNumero());
-            pst = conexao.prepareStatement(sql3.toString());
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                id_cartao = rs.getInt("id_cartao");
-            }
-            StringBuilder sql4 = new StringBuilder();
-            sql4.append("INSERT INTO tb_cliente_cartao(id_cartao, id_cli)");
-            sql4.append("VALUES(?, ?)");
-            pst = conexao.prepareStatement(sql4.toString());
-            pst.setInt(1, id_cartao);
-            pst.setInt(2, id_cliente);
+            pst.setInt(1, cartao.getId());
+            pst.setInt(2, cliente.getId());
+            pst.execute();
 
             // Fecha a conexao.
             conexao.close();
@@ -224,6 +206,11 @@ public class CartaoCreditoDAO implements IDAO {
 
     @Override
     public void salvar(EntidadeDominio entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int salvarId(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
