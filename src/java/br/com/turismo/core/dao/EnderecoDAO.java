@@ -27,43 +27,88 @@ public class EnderecoDAO implements IDAO {
     Connection conexao;
     PreparedStatement pst;
 
-    @Override
-    public void atualizar(EntidadeDominio entidade) throws SQLException {
+    public void atualizar_Cobranca(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
-if (endereco.getId() != 0) {
-        try {
-            // Abre uma conexao com o banco.
-            conexao = Conexao.getConexao();
-
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE endereco SET cep=?, complemento=?, logradouro=?, numero=?, cidade_id=? WHERE id=?");
-             pst = conexao.prepareStatement(sql.toString());
-            pst.setString(2, endereco.getCep());
-            pst.setString(3, endereco.getComplemento());
-            pst.setString(4, endereco.getLogradouro());
-            pst.setString(5, endereco.getNumero());
-            pst.setInt(7, endereco.getId());
-            pst.execute();
-
-            // Fecha a conexao.
-            conexao.close();
-        } catch (ClassNotFoundException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de configuração");
-        } catch (SQLException erro) {
-            erro.printStackTrace();
-            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
+        if (endereco.getId() != 0) {
             try {
-                pst.close();
+                // Abre uma conexao com o banco.
+                conexao = Conexao.getConexao();
+
+                StringBuilder sql = new StringBuilder();
+                sql.append("UPDATE tb_endereco_cobranca SET cidade=?, estado=?, pais=?, logradouro=?, numero=?, cep=?, tipo_residencia=?, tipo_logradouro=?, complemento=? WHERE id_end=?");
+                pst = conexao.prepareStatement(sql.toString());
+                pst.setString(1, endereco.getCidade());
+                pst.setString(2, endereco.getEstado());
+                pst.setString(3, endereco.getPais());
+                pst.setString(4, endereco.getLogradouro());
+                pst.setString(5, endereco.getNumero());
+                pst.setString(6, endereco.getCep());
+                pst.setString(7, endereco.getTipoResidencia());
+                pst.setString(8, endereco.getTipoLogradouro());
+                pst.setString(9, endereco.getComplemento());
+                pst.setInt(10, endereco.getId());
+                pst.execute();
+
+                // Fecha a conexao.
                 conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (ClassNotFoundException erro) {
+                erro.printStackTrace();
+                //throw new ExcecaoAcessoDados("Houve um problema de configuração");
+            } catch (SQLException erro) {
+                erro.printStackTrace();
+                //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
+            } finally {
+                try {
+                    pst.close();
+                    conexao.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
-}
     }
     
+    public void atualizar_Entrega(EntidadeDominio entidade) throws SQLException {
+        Endereco endereco = (Endereco) entidade;
+        if (endereco.getId() != 0) {
+            try {
+                // Abre uma conexao com o banco.
+                conexao = Conexao.getConexao();
+
+                StringBuilder sql = new StringBuilder();
+                sql.append("UPDATE tb_endereco_entrega SET cidade=?, estado=?, pais=?, logradouro=?, numero=?, cep=?, tipo_residencia=?, tipo_logradouro=?, complemento=? WHERE id_end=?");
+                pst = conexao.prepareStatement(sql.toString());
+                pst.setString(1, endereco.getCidade());
+                pst.setString(2, endereco.getEstado());
+                pst.setString(3, endereco.getPais());
+                pst.setString(4, endereco.getLogradouro());
+                pst.setString(5, endereco.getNumero());
+                pst.setString(6, endereco.getCep());
+                pst.setString(7, endereco.getTipoResidencia());
+                pst.setString(8, endereco.getTipoLogradouro());
+                pst.setString(9, endereco.getComplemento());
+                pst.setInt(10, endereco.getId());
+                pst.execute();
+
+                // Fecha a conexao.
+                conexao.close();
+            } catch (ClassNotFoundException erro) {
+                erro.printStackTrace();
+                //throw new ExcecaoAcessoDados("Houve um problema de configuração");
+            } catch (SQLException erro) {
+                erro.printStackTrace();
+                //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
+            } finally {
+                try {
+                    pst.close();
+                    conexao.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void excluir_Cobranca(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
         if (endereco.getId() != 0) {
@@ -73,7 +118,7 @@ if (endereco.getId() != 0) {
 
                 StringBuilder sql = new StringBuilder();
 
-                sql.append("DELETE FROM tb_endereco_cobranca * WHERE id=?");
+                sql.append("DELETE FROM tb_endereco_cobranca * WHERE id_end=?");
                 PreparedStatement pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, endereco.getId());
                 pst.execute();
@@ -96,8 +141,8 @@ if (endereco.getId() != 0) {
             }
         }
     }
-    
-     public void excluir_Entrega(EntidadeDominio entidade) throws SQLException {
+
+    public void excluir_Entrega(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
         if (endereco.getId() != 0) {
             try {
@@ -143,7 +188,7 @@ if (endereco.getId() != 0) {
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 endereco = new Endereco();
                 endereco.setCep(rs.getString("cep"));
                 endereco.setCidade(rs.getString("cidade"));
@@ -176,7 +221,7 @@ if (endereco.getId() != 0) {
         }
         return null;
     }
-    
+
     public List<EntidadeDominio> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
         List<EntidadeDominio> enderecos = null;
         Cliente cliente = (Cliente) entidade;
@@ -190,7 +235,7 @@ if (endereco.getId() != 0) {
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 endereco = new Endereco();
                 endereco.setCep(rs.getString("cep"));
                 endereco.setCidade(rs.getString("cidade"));
@@ -231,11 +276,11 @@ if (endereco.getId() != 0) {
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
 
-             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO tb_endereco_entrega (cidade, estado, pais, logradouro, numero, cep, dt_cadastro, tipo_residencia, tipo_logradouro, complemento)");
+            StringBuilder sql = new StringBuilder();
+            sql.append("INSERT INTO tb_endereco_cobranca (cidade, estado, pais, logradouro, numero, cep, dt_cadastro, tipo_residencia, tipo_logradouro, complemento)");
             sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-            
+
             pst.setString(1, cliente.getEnd_De_Cobranca().getCidade());
             pst.setString(2, cliente.getEnd_De_Cobranca().getEstado());
             pst.setString(3, cliente.getEnd_De_Cobranca().getPais());
@@ -246,15 +291,14 @@ if (endereco.getId() != 0) {
             pst.setString(8, cliente.getEnd_De_Cobranca().getTipoResidencia());
             pst.setString(9, cliente.getEnd_De_Cobranca().getTipoLogradouro());
             pst.setString(10, cliente.getEnd_De_Cobranca().getComplemento());
-            
-            
+
             pst.execute();
             ResultSet generatedKeys = pst.getGeneratedKeys();
             if (null != generatedKeys && generatedKeys.next()) {
                 cliente.getEnd_De_Cobranca().setId(generatedKeys.getInt(1));
             }
             StringBuilder sql2 = new StringBuilder();
-            sql2.append("INSERT INTO tb_cliente_entrega(id_end, id_cli)");
+            sql2.append("INSERT INTO tb_cliente_cobranca(id_end, id_cli)");
             sql2.append("VALUES(?, ?)");
             pst = conexao.prepareStatement(sql2.toString());
             pst.setInt(1, cliente.getEnd_De_Cobranca().getId());
@@ -278,6 +322,7 @@ if (endereco.getId() != 0) {
         }
         return cliente.getEnd_De_Cobranca().getId();
     }
+
     public int salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) {
         Cliente cliente = (Cliente) entidade_cli;
         Endereco endereco = (Endereco) entidade_end;
@@ -289,7 +334,7 @@ if (endereco.getId() != 0) {
             sql.append("INSERT INTO tb_endereco_entrega (cidade, estado, pais, logradouro, numero, cep, dt_cadastro, tipo_residencia, tipo_logradouro, complemento)");
             sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-            
+
             pst.setString(1, endereco.getCidade());
             pst.setString(2, endereco.getEstado());
             pst.setString(3, endereco.getPais());
@@ -300,8 +345,7 @@ if (endereco.getId() != 0) {
             pst.setString(8, endereco.getTipoResidencia());
             pst.setString(9, endereco.getTipoLogradouro());
             pst.setString(10, endereco.getComplemento());
-            
-            
+
             pst.execute();
             ResultSet generatedKeys = pst.getGeneratedKeys();
             if (null != generatedKeys && generatedKeys.next()) {
@@ -314,7 +358,7 @@ if (endereco.getId() != 0) {
             pst.setInt(1, endereco.getId());
             pst.setInt(2, cliente.getId());
             pst.execute();
-            
+
             // Fecha a conexao.
             conexao.close();
         } catch (ClassNotFoundException erro) {
@@ -356,6 +400,11 @@ if (endereco.getId() != 0) {
 
     @Override
     public void excluir(EntidadeDominio entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void atualizar(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
