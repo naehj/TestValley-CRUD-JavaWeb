@@ -105,9 +105,8 @@ public class CartaoCreditoDAO implements IDAO {
 
     }
 
-    @Override
-    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
-        List<EntidadeDominio> cartoes = null;
+    public List<CartaoCredito> consultar_Cartao(EntidadeDominio entidade) throws SQLException {
+        List<CartaoCredito> cartoes = null;
 
         Cliente cliente = (Cliente) entidade;
         try {
@@ -211,6 +210,11 @@ public class CartaoCreditoDAO implements IDAO {
 
     @Override
     public int salvarId(EntidadeDominio entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

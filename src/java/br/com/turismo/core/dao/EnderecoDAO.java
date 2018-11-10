@@ -221,7 +221,7 @@ public class EnderecoDAO implements IDAO {
         return endereco;
     }
 
-    public List<EntidadeDominio> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
+    public List<Endereco> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
         List<EntidadeDominio> enderecos = null;
         Cliente cliente = (Cliente) entidade;
         Endereco endereco = null;
