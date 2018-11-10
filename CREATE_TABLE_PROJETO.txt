@@ -1,0 +1,99 @@
+CREATE TABLE tb_endereco_cobranca
+(
+  id_end serial NOT NULL,
+  cidade character varying(255),
+  estado character varying(255),
+  pais character varying(255),
+  logradouro character varying(255),
+  numero character varying(255),
+  cep character varying(255),
+  dt_cadastro timestamp without time zone,
+  tipo_residencia character varying(255),
+
+  tipo_logradouro character varying(255),
+  CONSTRAINT tb_endereco_pkey_cobranca PRIMARY KEY (id_end)
+);
+
+CREATE TABLE tb_endereco_entrega
+(
+  id_end serial NOT NULL,
+  cidade character varying(255),
+  estado character varying(255),
+  pais character varying(255),
+  logradouro character varying(255),
+  numero character varying(255),
+  cep character varying(255),
+  dt_cadastro timestamp without time zone,
+  tipo_residencia character varying(255),
+
+  tipo_logradouro character varying(255),
+  CONSTRAINT tb_endereco_pkey_entrega PRIMARY KEY (id_end)
+);
+
+CREATE TABLE tb_cliente
+(
+  id_cli serial NOT NULL,
+  dt_cadastro date NOT NULL,
+  nome character varying(30) NOT NULL,
+  cpf character(45),
+  CONSTRAINT tb_cliente_pkey PRIMARY KEY (id_cli)
+);
+
+CREATE TABLE tb_cartao
+(
+  id_cartao serial NOT NULL,
+  n_cartao character varying(40) NOT NULL,
+  nome character varying(30) NOT NULL,
+  bandeira character varying(40) NOT NULL,
+  codigo character varying(40) NOT NULL,
+  dt_cadastro date NOT NULL,
+  CONSTRAINT tb_cartao_pkey PRIMARY KEY (id_cartao)
+);
+
+CREATE TABLE tb_cliente_endereco_cobranca
+(
+  id_end integer REFERENCES tb_endereco_cobranca (id_end),
+  id_cli integer REFERENCES tb_cliente (id_cli)
+);
+
+CREATE TABLE tb_cliente_endereco_entrega
+(
+  id_end integer REFERENCES tb_endereco_entrega (id_end),
+  id_cli integer REFERENCES tb_cliente (id_cli)
+);
+
+CREATE TABLE tb_cliente_cartao
+(
+  id_cartao integer REFERENCES tb_cartao (id_cartao),
+  id_cli integer REFERENCES tb_cliente (id_cli) 
+);
+
+ALTER TABLE public.tb_cliente_endereco_cobranca DROP CONSTRAINT tb_cliente_endereco_cobranca_id_cli_fkey,
+ADD CONSTRAINT tb_cliente_endereco_cobranca_id_cli_fkey FOREIGN KEY (id_cli)
+ 
+REFERENCES tb_cliente (id_cli) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.tb_cliente_endereco_cobranca DROP CONSTRAINT tb_cliente_endereco_cobranca_id_end_fkey,
+ADD CONSTRAINT tb_cliente_endereco_cobranca_id_end_fkey FOREIGN KEY (id_end)
+ 
+REFERENCES tb_endereco_cobranca (id_end) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.tb_cliente_endereco_entrega DROP CONSTRAINT tb_cliente_endereco_entrega_id_cli_fkey,
+ADD CONSTRAINT tb_cliente_endereco_cobranca_id_cli_fkey FOREIGN KEY (id_cli)
+ 
+REFERENCES tb_cliente (id_cli) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.tb_cliente_endereco_entrega DROP CONSTRAINT tb_cliente_endereco_entrega_id_end_fkey,
+ADD CONSTRAINT tb_cliente_endereco_entrega_id_end_fkey FOREIGN KEY (id_end)
+ 
+REFERENCES tb_endereco_entrega (id_end) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.tb_cliente_cartao DROP CONSTRAINT tb_cliente_cartao_id_cli_fkey,
+ADD CONSTRAINT tb_cliente_cartao_id_cli_fkey FOREIGN KEY (id_cli)
+ 
+REFERENCES tb_cliente (id_cli) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public.tb_cliente_cartao DROP CONSTRAINT tb_cliente_cartao_id_cartao_fkey,
+ADD CONSTRAINT tb_cliente_cartao_id_cartao_fkey FOREIGN KEY (id_cartao)
+ 
+REFERENCES tb_cartao (id_cartao) ON DELETE CASCADE ON UPDATE CASCADE;
