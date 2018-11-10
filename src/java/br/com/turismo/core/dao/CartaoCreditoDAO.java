@@ -125,7 +125,7 @@ public class CartaoCreditoDAO implements IDAO {
                 cartao.setCodigo(rs.getString("codigo"));
                 cartao.setNumero(rs.getString("n_cartao"));
                 cartao.setId(Integer.parseInt("id_cartao"));
-                cartao.setDtCadastro(rs.getDate("dtcadastro"));
+                cartao.setDtCadastro(rs.getDate("dt_cadastro"));
                 cartao.setNome(rs.getString("nome"));
                 cartoes.add(cartao);
             }
@@ -159,7 +159,7 @@ public class CartaoCreditoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("INSERT INTO tb_cartao(n_cartao, nome, bandeira, codigo, dtcadastro)");
+            sql.append("INSERT INTO tb_cartao(n_cartao, nome, bandeira, codigo, dt_cadastro)");
             sql.append(" VALUES(?, ?, ?, ?, ?)");
             pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, cartao.getNumero());
