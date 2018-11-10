@@ -175,8 +175,7 @@ public class EnderecoDAO implements IDAO {
         }
     }
 
-    public List<EntidadeDominio> consultar_Cobranca(EntidadeDominio entidade) throws SQLException {
-        List<EntidadeDominio> enderecos = null;
+    public Endereco consultar_Cobranca(EntidadeDominio entidade) throws SQLException {
         Cliente cliente = (Cliente) entidade;
         Endereco endereco = null;
         try {
@@ -219,7 +218,7 @@ public class EnderecoDAO implements IDAO {
                 e.printStackTrace();
             }
         }
-        return null;
+        return endereco;
     }
 
     public List<EntidadeDominio> consultar_Entrega(EntidadeDominio entidade) throws SQLException {
