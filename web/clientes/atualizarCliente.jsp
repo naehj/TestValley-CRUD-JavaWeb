@@ -18,7 +18,7 @@
         <div class="container-fluid">   
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">Turismo</a>
+                <a class="navbar-brand" href="#">CRUD Cliente</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -80,105 +80,26 @@
 
                 </div>
                 <hr/>
-                <c:forEach var="cartao" items="${resultado.get(0).cartaoCredito}" >
-                    <div class="form-group row">
-                        <label for="nomeCartao" class="col-2 col-form-label">Nome do Cartão:</label>
-                        <div class="col-6">
-                            <input class="form-control" type="text" id="nomeCartao" name="nomeCartao"  value="${cartao.nome}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-
-                        <label for="numeroCartao" class="col-2 col-form-label">Número Cartão:</label>
-                        <div class="col-5">
-                            <input class="form-control" type="text" id="numeroCartao" name="numeroCartao"  value="${cartao.numero}">
-                        </div>
-                        <label for="codigoCartao" class="col-2 col-form-label">Código de Segurança:</label>
-                        <div class="col-2">
-                            <input class="form-control" type="text" id="codigoCartao" name="codigoCartao"  value="${cartao.codigo}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-
-                        <label for="mesCartao" class="col-2 col-form-label">Mês:</label>
-                        <div class="col-2">
-                            <input class="form-control" type="number" min="1" max="12"id="mesCartao" name="mesCartao"  value="${cartao.mes}">
-                        </div>
-                        <label for="anoCartao" class="col-2 cm-label">Ano:</label>
-
-                        <div class="col-2">
-                            <input class="form-control" type="number" min="2018" max="2040" id="anoCartao" name="anoCartao"  value="${cartao.ano}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="bandeira" class="col-2 cm-label">Bandeira:</label>
-
-                        <div class="col-3">
-                            <input class="form-control" type="text" id="bandeira" name="bandeira"  value="${cartao.bandeira}">
-                        </div>
-                    </div>
-                    <br/>
-                    <br/>
-                </c:forEach>
-                <hr/>
-
-                <div class="form-group row">
-                    <label for="cep" class="col-2 col-form-label">CEP:</label>
-                    <div class="col-4">
-                        <input class="form-control" type="text" id="cep" name="cep"  value="${resultado.get(0).endereco.cep}">
-                    </div>
-                </div>
-                <div class="form-group row">
-
-                    <label for="logradouro" class="col-2 col-form-label">Logradouro:</label>
-                    <div class="col-6">
-                        <input class="form-control" type="text" id="logradouro" name="logradouro"  value="${resultado.get(0).endereco.logradouro}">
-                    </div>
-                    <label for="numeroRes" class="col-2 col-form-label">Número:</label>
-                    <div class="col-2">
-                        <input class="form-control" type="text" id="numeroRes" name="numeroRes"  value="${resultado.get(0).endereco.numero}">
-                    </div>
-
-                </div>
-                <div class="form-group row">
-                    <label for="complemento" class="col-2 cm-label">Complemento:</label>
-                    <div class="col-5">
-                        <input class="form-control" type="text" id="complemento" name="complemento"  value="${resultado.get(0).endereco.complemento}">
-                    </div>
-                </div>
-                <div class="form-group row">
-
-                    <label for="bairro" class="col-2 col-form-label">Bairro:</label>
-                    <div class="col-3">
-                        <input class="form-control" type="mesCartao" id="bairro" name="bairro"  value="${resultado.get(0).endereco.bairro}">
-                    </div>
-
-                    <label for="idCidade" class="col-2 cm-label">idCidade</label>
-                    <div class="col-3">
-                        <input class="form-control" type="text" id="idCidade"  name="idCidade" >
-                    </div>
-
-
-                </div>
-
-                <input type="hidden" name="idEndereco" value="${resultado.get(0).endereco.id}"/>
-                <input type="hidden" name="operacao" value="ATUALIZAR">
-                <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
-                <input class="btn btn-primary" type="submit" value="atualizar">
-                <br/>
-                <c:if test="${mensagem != null}">
-                    <br/>
-                    <p>${mensagem}</p>
-                </c:if>
-            </form>
-            <br/>
         </div>
 
+        <input type="hidden" name="idEndereco" value="${resultado.get(0).endereco.id}"/>
+        <input type="hidden" name="operacao" value="ATUALIZAR">
+        <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
+        <input class="btn btn-primary" type="submit" value="atualizar">
+        <br/>
+        <c:if test="${mensagem != null}">
+            <br/>
+            <p>${mensagem}</p>
+        </c:if>
+    </form>
+    <br/>
+</div>
 
 
 
-        <!-- Bootstrap core JavaScript -->
-        <c:import  url="../elements/footer.jsp"/>
-    </body>
+
+<!-- Bootstrap core JavaScript -->
+<c:import  url="../elements/footer.jsp"/>
+</body>
 </html>
 

@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Turismo</title>
+        <title>CRUD Cliente</title>
         <c:import  url="../elements/header.jsp"/>
 
         <script type="text/javascript">
