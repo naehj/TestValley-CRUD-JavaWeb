@@ -11,6 +11,7 @@ CREATE TABLE tb_endereco_cobranca
   tipo_residencia character varying(255),
 
   tipo_logradouro character varying(255),
+  complemento character varying (255),
   CONSTRAINT tb_endereco_pkey_cobranca PRIMARY KEY (id_end)
 );
 
@@ -27,6 +28,7 @@ CREATE TABLE tb_endereco_entrega
   tipo_residencia character varying(255),
 
   tipo_logradouro character varying(255),
+  complemento character varying (255),
   CONSTRAINT tb_endereco_pkey_entrega PRIMARY KEY (id_end)
 );
 
