@@ -65,14 +65,14 @@ public class Servlet extends HttpServlet {
     	/*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
     	 */
-        vhs.put("/Turismo/clientes/salvar", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/atualizar", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/consultar", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/filtrar", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/excluir", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/preAtualizar", new ClienteViewHelper());
-        vhs.put("/Turismo/login", new ClienteViewHelper());
-        vhs.put("/Turismo/clientes/novoCartao", new CartaoCreditoViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/salvar", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/atualizar", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/consultar", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/filtrar", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/excluir", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/preAtualizar", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/login", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/novoCartao", new CartaoCreditoViewHelper());
     	
     }
     
