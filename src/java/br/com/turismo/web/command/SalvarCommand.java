@@ -16,5 +16,8 @@ public class SalvarCommand extends AbstractCommand{
 		
 		return fachada.salvar(entidade);
 	}
+        public Resultado execute(EntidadeDominio entidadeCli, EntidadeDominio entidadeAlt){
+            return fachada.salvar(entidadeCli, entidadeAlt);
+        }
 
 }
