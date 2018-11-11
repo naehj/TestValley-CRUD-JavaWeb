@@ -362,7 +362,7 @@ public class EnderecoDAO implements IDAO {
     }
 
 
-    public int salvarId_Cobranca(EntidadeDominio entidade) {
+    public int salvarId_Cobranca(EntidadeDominio entidade) throws SQLException {
         System.out.println("Estou  na dao de endereco");
         Cliente cliente = (Cliente) entidade;
         try {
@@ -416,7 +416,7 @@ public class EnderecoDAO implements IDAO {
         return cliente.getEnd_De_Cobranca().getId();
     }
 
-    public int salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) {
+    public int salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) throws SQLException {
         Cliente cliente = (Cliente) entidade_cli;
         Endereco endereco = (Endereco) entidade_end;
         try {
