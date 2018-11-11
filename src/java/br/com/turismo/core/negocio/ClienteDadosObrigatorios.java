@@ -63,35 +63,35 @@ public class ClienteDadosObrigatorios implements IStrategy {
             msg = msg + "É necessário pelo menos um endereço de cobrança.\n";
         } else {
             if (cliente.getEnd_De_Cobranca().getCep() == null || cliente.getEnd_De_Cobranca().getCep().trim().equals("")) {
-                msg = msg + "CEP não informado.\n";
+                msg = msg + "CEP de cobrança não informado.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getLogradouro() == null || cliente.getEnd_De_Cobranca().getLogradouro().trim().equals("")) {
-                msg = msg + "Logradouro não informado.\n";
+                msg = msg + "Logradouro de cobrança não informado.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getCidade() == null || cliente.getEnd_De_Cobranca().getCidade().trim().equals("")) {
-                msg = msg + "Cidade não informada.\n";
+                msg = msg + "Cidade de cobrança não informada.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getEstado() == null || cliente.getEnd_De_Cobranca().getEstado().trim().equals("")) {
-                msg = msg + "Estado não informado.\n";
+                msg = msg + "Estado de cobrança não informado.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getPais() == null || cliente.getEnd_De_Cobranca().getPais().trim().equals("")) {
-                msg = msg + "País não informado.\n";
+                msg = msg + "País de cobrança não informado.\n";
             }
             
             if (cliente.getEnd_De_Cobranca().getNumero()== null || cliente.getEnd_De_Cobranca().getNumero().trim().equals("")) {
-                msg = msg + "Número não informado.\n";
+                msg = msg + "Número de cobrança não informado.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getTipoLogradouro() == null || cliente.getEnd_De_Cobranca().getTipoLogradouro().trim().equals("")) {
-                msg = msg + "Tipo de logradouro não informado.\n";
+                msg = msg + "Tipo de logradouro de cobrança não informado.\n";
             }
 
             if (cliente.getEnd_De_Cobranca().getTipoResidencia() == null || cliente.getEnd_De_Cobranca().getTipoResidencia().trim().equals("")) {
-                msg = msg + "Tipo de residência não informada.\n";
+                msg = msg + "Tipo de residência de cobrança não informada.\n";
             }
         }
         if (cliente.getEnd_De_Entrega() == null) {
@@ -99,34 +99,34 @@ public class ClienteDadosObrigatorios implements IStrategy {
         } else {
             for (Endereco endereco : cliente.getEnd_De_Entrega()) {
                 if (endereco.getCep() == null || endereco.getCep().trim().equals("")) {
-                    msg = msg + "CEP não informado.\n";
+                    msg = msg + "CEP de entrega não informado.\n";
                 }
 
                 if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().equals("")) {
-                    msg = msg + "Logradouro não informado.\n";
+                    msg = msg + "Logradouro de entrega não informado.\n";
                 }
 
                 if (endereco.getCidade() == null || endereco.getCidade().trim().equals("")) {
-                    msg = msg + "Cidade não informada.\n";
+                    msg = msg + "Cidade de entrega não informada.\n";
                 }
 
                 if (endereco.getEstado() == null || endereco.getEstado().trim().equals("")) {
-                    msg = msg + "Estado não informado.\n";
+                    msg = msg + "Estado de entrega não informado.\n";
                 }
 
                 if (endereco.getPais() == null || endereco.getPais().trim().equals("")) {
-                    msg = msg + "País não informado.\n";
+                    msg = msg + "País de entrega não informado.\n";
                 }
                 if (endereco.getNumero()== null || endereco.getNumero().trim().equals("")) {
-                    msg = msg + "Número não informado.\n";
+                    msg = msg + "Número de entrega não informado.\n";
                 }
 
                 if (endereco.getTipoLogradouro()== null || endereco.getTipoLogradouro().trim().equals("")) {
-                    msg = msg + "Tipo de logradouro não informado.\n";
+                    msg = msg + "Tipo de logradouro de entrega não informado.\n";
                 }
 
                 if (endereco.getTipoResidencia() == null || endereco.getTipoResidencia().trim().equals("")) {
-                    msg = msg + "Tipo de residência não informada.\n";
+                    msg = msg + "Tipo de residência de entrega não informada.\n";
                 }
             }
         }
