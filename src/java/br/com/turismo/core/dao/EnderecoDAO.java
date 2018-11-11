@@ -67,7 +67,7 @@ public class EnderecoDAO implements IDAO {
             }
         }
     }
-    
+
     public void atualizar_Entrega(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
         if (endereco.getId() != 0) {
@@ -249,7 +249,7 @@ public class EnderecoDAO implements IDAO {
                 endereco.setTipoResidencia(rs.getString("tipo_residencia"));
                 enderecos.add(endereco);
             }
-            
+
             // Fecha a conexao.
             conexao.close();
             return enderecos;
@@ -269,7 +269,7 @@ public class EnderecoDAO implements IDAO {
         }
         return null;
     }
-    
+
     public Endereco consultar_Cobranca_Por_Endereco(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
         try {
@@ -340,7 +340,7 @@ public class EnderecoDAO implements IDAO {
                 endereco.setTipoLogradouro(rs.getString("tipo_logradouro"));
                 endereco.setTipoResidencia(rs.getString("tipo_residencia"));
             }
-            
+
             // Fecha a conexao.
             conexao.close();
             return endereco;
@@ -360,7 +360,6 @@ public class EnderecoDAO implements IDAO {
         }
         return null;
     }
-
 
     public int salvarId_Cobranca(EntidadeDominio entidade) throws SQLException {
         System.out.println("Estou  na dao de endereco");
@@ -405,15 +404,8 @@ public class EnderecoDAO implements IDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-        return cliente.getEnd_De_Cobranca().getId();
+        return 1;
     }
 
     public int salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) throws SQLException {
@@ -460,13 +452,6 @@ public class EnderecoDAO implements IDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return endereco.getId();
     }
