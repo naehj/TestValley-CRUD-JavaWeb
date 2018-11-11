@@ -15,6 +15,8 @@ import java.util.List;
 public interface IFachada {
     
     public Resultado salvar(EntidadeDominio entidade);
+    
+    public Resultado salvar(EntidadeDominio entidadeCli, EntidadeDominio entidadeAlt);
 
     public Resultado atualizar(EntidadeDominio entidade);
 
