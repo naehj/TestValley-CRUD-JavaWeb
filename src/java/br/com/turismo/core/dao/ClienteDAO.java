@@ -31,7 +31,7 @@ public class ClienteDAO implements IDAO {
     Connection conexao;
 
     @Override
-    public void salvar(EntidadeDominio entidade) {
+    public void salvar(EntidadeDominio entidade) throws SQLException {
         Cliente cliente = (Cliente) entidade;
 
         //Salvando endereco de Cobrança
@@ -83,14 +83,7 @@ public class ClienteDAO implements IDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
 
-        } finally {
-            try {
-                pst.close();
-                conexao.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        } 
 
     }
 
