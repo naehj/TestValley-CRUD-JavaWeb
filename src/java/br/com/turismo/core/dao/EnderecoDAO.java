@@ -361,7 +361,7 @@ public class EnderecoDAO implements IDAO {
         return null;
     }
 
-    public int salvarId_Cobranca(EntidadeDominio entidade) throws SQLException {
+    public void salvarId_Cobranca(EntidadeDominio entidade) {
         System.out.println("Estou  na dao de endereco");
         Cliente cliente = (Cliente) entidade;
         try {
@@ -405,10 +405,17 @@ public class EnderecoDAO implements IDAO {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
         }
-        return 1;
+         finally {
+            try {
+                pst.close();
+                conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public int salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) throws SQLException {
+    public void salvarId_Entrega(EntidadeDominio entidade_cli, EntidadeDominio entidade_end) throws SQLException {
         Cliente cliente = (Cliente) entidade_cli;
         Endereco endereco = (Endereco) entidade_end;
         try {
@@ -453,7 +460,6 @@ public class EnderecoDAO implements IDAO {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
         }
-        return endereco.getId();
     }
 
     @Override
