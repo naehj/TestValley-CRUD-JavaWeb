@@ -20,7 +20,7 @@ public class Conexao {
         Class.forName("org.postgresql.Driver");
         // Abre uma conexao com o banco.
        
-           Connection conn =  DriverManager.getConnection("jdbc:postgresql://localhost:5432/companhia", "postgres", "1234");
+           Connection conn =  DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
    return conn;
     }
     
