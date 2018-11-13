@@ -38,6 +38,8 @@ CREATE TABLE tb_cliente
   dt_cadastro date NOT NULL,
   nome character varying(30) NOT NULL,
   cpf character(45),
+  email character varying(60),
+  senha character varying(60),
   CONSTRAINT tb_cliente_pkey PRIMARY KEY (id_cli)
 );
 
