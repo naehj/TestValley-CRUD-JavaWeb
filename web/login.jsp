@@ -35,7 +35,9 @@
                                 <input type="hidden" name="operacao" value="AUTENTICAR">
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Logar</button>
                                 <br>
-
+                                <p>
+                                    Ainda não é cadastrado? <a href="clientes/cadastroCliente.jsp">Clique aqui</a>
+                                </p>
                                 <c:if test="${mensagem != null}">
                                     <br/>
                                     <p>${mensagem}</p>
