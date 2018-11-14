@@ -17,7 +17,7 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center">Sign In</h5>
-                            <form class="form-signin" method="POST" action="/login">
+                            <form class="form-signin" method="POST" action="clientes/autenticar">
                                 <div class="form-label-group">
                                     <input type="email" id="inputEmail" class="form-control" placeholder="E-mail " required autofocus name="email">
                                     <label for="inputEmail">E-mail </label>
@@ -33,7 +33,7 @@
                                     <label class="custom-control-label" for="customCheck1">Lembra senha</label>
                                 </div>
                                 <input type="hidden" name="operacao" value="AUTENTICAR">
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Logar</button>
+                                <input class="btn btn-lg btn-primary btn-block text-uppercase" name="Logar" value="Logar" type="submit">
                                 <br>
                                 <p>
                                     Ainda não é cadastrado? <a href="clientes/cadastroCliente.jsp">Clique aqui</a>
