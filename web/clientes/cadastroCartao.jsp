@@ -65,15 +65,7 @@
 
             </div>
             <div class="form-group row">
-
-                <label for="mesCartao" class="col-1 col-form-label">Mês:</label>
-                <div class="col-2">
-                    <input class="form-control" type="number" min="1" max="12"id="mesCartao" name="mesCartao">
-                </div>
-                <label for="anoCartao" class="col-1 cm-label">Ano:</label>
-                <div class="col-2">
-                    <input class="form-control" type="number" min="2018" max="2040" id="anoCartao" name="anoCartao">
-                </div>
+                
                 <label for="bandeira" class="col-1 cm-label">Bandeira:</label>
                 <div class="col-2">
                     <input class="form-control" type="text" id="bandeira" name="bandeira">
