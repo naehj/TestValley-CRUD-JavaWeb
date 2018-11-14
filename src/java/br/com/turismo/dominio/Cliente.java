@@ -15,8 +15,8 @@ public class Cliente extends EntidadeDominio {
     private String senha;
     private String email;
     private String genero;
-    private Endereco end_de_cobranca;
-    private List<Endereco> end_de_entrega;
+    private Endereco end_de_cobranca = new Endereco();
+    private List<Endereco> end_de_entrega = new ArrayList<>();
     private Date dtNascimento;
     private List<CartaoCredito> cartaoCredito = new ArrayList<>();
 
