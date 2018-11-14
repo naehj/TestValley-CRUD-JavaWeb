@@ -64,6 +64,11 @@
 
 <servlet-mapping>
 	<servlet-name>Servlet</servlet-name>
+	<url-pattern>/clientes/autenticar</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+	<servlet-name>Servlet</servlet-name>
 	<url-pattern>/clientes/excluir</url-pattern>
 </servlet-mapping>
     
@@ -75,6 +80,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
