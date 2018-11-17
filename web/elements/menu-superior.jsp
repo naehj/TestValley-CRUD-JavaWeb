@@ -11,7 +11,11 @@
         <div class="container-fluid">   
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="paginaCliente.jsp">CRUD_JavaWeb</a>
+                <form  action="/CRUD_JavaWeb/clientes/home" method="POST">
+                    <input type="hidden" name="idCliente" value="${resultado.get(0).id}">
+                    <input type="hidden" name="operacao" value="HOME">
+                    <input style="background-color: rgb(33,37,41); color: rgba(255, 255, 255, 0.5)" class="navbar-brand" value="CRUD_JavaWeb" type="submit">
+                </form>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -19,7 +23,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="paginaCliente.jsp">Home <span class="sr-only">(current)</span></a>
+                            <form action="/CRUD_JavaWeb/clientes/home" method="POST">
+                                <input type="hidden" name="idCliente" value="${resultado.get(0).id}">
+                                <input type="hidden" name="operacao" value="HOME">
+                                <input style="background-color: rgb(33,37,41); color: rgba(255, 255, 255, 0.5)" class="nav-link" value="Home" type="submit">
+                            </form>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -27,7 +35,7 @@
                                 Cliente
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar</a>
+                                <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar Cliente</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="consultarCliente.jsp">Consultar Clientes</a>
                                 <div class="dropdown-divider"></div>
