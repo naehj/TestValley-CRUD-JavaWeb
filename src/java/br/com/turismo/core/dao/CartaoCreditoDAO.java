@@ -15,7 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,11 +34,11 @@ public class CartaoCreditoDAO implements IDAO {
     public void atualizar(EntidadeDominio entidade) throws SQLException {
 
         cartao = (CartaoCredito) entidade;
-       
+
         if (cartao.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
-                Connection conexao = Conexao.getConexao();
+                conexao = Conexao.getConexao();
 
                 StringBuilder sql = new StringBuilder();
 
@@ -76,12 +78,12 @@ public class CartaoCreditoDAO implements IDAO {
         if (cartao.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
-                Connection conexao = Conexao.getConexao();
+                conexao = Conexao.getConexao();
 
                 StringBuilder sql = new StringBuilder();
 
-                sql.append("DELETE FROM tb_cartao * WHERE id=?");
-                PreparedStatement pst = conexao.prepareStatement(sql.toString());
+                sql.append("DELETE FROM tb_cartao * WHERE id_cartao=?");
+                pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, cartao.getId());
                 pst.execute();
 
@@ -105,25 +107,25 @@ public class CartaoCreditoDAO implements IDAO {
 
     }
 
-    public List<CartaoCredito> consultar_Cartao(EntidadeDominio entidade) throws SQLException {
-        List<CartaoCredito> cartoes = null;
+    public HashSet<CartaoCredito> consultar_Cartao(EntidadeDominio entidade) throws SQLException {
+        HashSet<CartaoCredito> cartoes = new HashSet<CartaoCredito>();
 
         Cliente cliente = (Cliente) entidade;
         try {
             // Abre uma conexao com o banco.
-            Connection conexao = Conexao.getConexao();
+            conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT FROM tb_cartao INNER JOIN tb_cliente_cartao * WHERE id_cli=?");
-            PreparedStatement pst = conexao.prepareStatement(sql.toString());
+            sql.append("SELECT cartao.* FROM tb_cartao cartao LEFT JOIN tb_cliente_cartao cliente_cartao ON cartao.id_cartao = cliente_cartao.id_cartao AND cliente_cartao.id_cli=?");
+            pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 cartao = new CartaoCredito();
                 cartao.setBandeira(rs.getString("bandeira"));
                 cartao.setCodigo(rs.getString("codigo"));
                 cartao.setNumero(rs.getString("n_cartao"));
-                cartao.setId(Integer.parseInt("id_cartao"));
+                cartao.setId(rs.getInt("id_cartao"));
                 cartao.setDtCadastro(rs.getDate("dt_cadastro"));
                 cartao.setNome(rs.getString("nome"));
                 cartoes.add(cartao);
@@ -148,7 +150,7 @@ public class CartaoCreditoDAO implements IDAO {
 
         return cartoes;
     }
-    
+
     public int salvarId_Cartao(EntidadeDominio entidade_cli, EntidadeDominio entidade_cartao) throws SQLException {
         Cliente cliente = (Cliente) entidade_cli;
         cartao = (CartaoCredito) entidade_cartao;
