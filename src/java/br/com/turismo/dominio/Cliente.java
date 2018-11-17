@@ -2,6 +2,7 @@ package br.com.turismo.dominio;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -16,9 +17,9 @@ public class Cliente extends EntidadeDominio {
     private String email;
     private String genero;
     private Endereco end_de_cobranca = new Endereco();
-    private List<Endereco> end_de_entrega = new ArrayList<>();
+    private HashSet<Endereco> end_de_entrega = new HashSet<>();
     private Date dtNascimento;
-    private List<CartaoCredito> cartaoCredito = new ArrayList<>();
+    private HashSet<CartaoCredito> cartaoCredito = new HashSet<>();
 
     public String getNome() {
         return nome;
@@ -68,11 +69,11 @@ public class Cliente extends EntidadeDominio {
         this.dtNascimento = dtNascimento;
     }
 
-    public List<CartaoCredito> getCartaoCredito() {
+    public HashSet<CartaoCredito> getCartaoCredito() {
         return cartaoCredito;
     }
 
-    public void setCartaoCredito(List<CartaoCredito> cartaoCredito) {
+    public void setCartaoCredito(HashSet<CartaoCredito> cartaoCredito) {
         this.cartaoCredito = cartaoCredito;
     }
 
@@ -84,11 +85,11 @@ public class Cliente extends EntidadeDominio {
         this.end_de_cobranca = end_de_cobranca;
     }
 
-    public List<Endereco> getEnd_De_Entrega() {
+    public HashSet<Endereco> getEnd_De_Entrega() {
         return end_de_entrega;
     }
 
-    public void setEnd_De_Entrega(List<Endereco> end_de_entrega) {
+    public void setEnd_De_Entrega(HashSet<Endereco> end_de_entrega) {
         this.end_de_entrega = end_de_entrega;
     }
 
