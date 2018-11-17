@@ -24,7 +24,7 @@ import java.util.List;
  * @author hisak
  */
 public class ClienteDAO implements IDAO {
-    
+
     EnderecoDAO endDAO;
     CartaoCreditoDAO cartaoDAO;
     PreparedStatement pst;
@@ -36,7 +36,6 @@ public class ClienteDAO implements IDAO {
 
         //Salvando endereco de Cobrança
         endDAO = new EnderecoDAO();
-        endDAO.salvarId_Cobranca(cliente);
 
         try {
             // Abre uma conexao com o banco.
@@ -62,6 +61,8 @@ public class ClienteDAO implements IDAO {
                 cliente.setId(generatedKeys.getInt(1));
             }
 
+            endDAO.salvarId_Cobranca(cliente);
+
             //Salvando endereços de entrega
             if (!cliente.getEnd_De_Entrega().equals(null)) {
                 for (Endereco endereco : cliente.getEnd_De_Entrega()) {
@@ -83,8 +84,7 @@ public class ClienteDAO implements IDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
 
-        } 
-         finally {
+        } finally {
             try {
                 pst.close();
                 conexao.close();
@@ -105,7 +105,7 @@ public class ClienteDAO implements IDAO {
                 conexao = Conexao.getConexao();
 
                 StringBuilder sql = new StringBuilder();
-                sql.append("UPDATE cliente SET cpf=?, dtnascimento=?, email=?, nome=?, senha=?, genero=? WHERE id=?");
+                sql.append("UPDATE tb_cliente SET cpf=?, dt_nascimento=?, email=?, nome=?, senha=?, genero=? WHERE id_cli=?");
 
                 pst = conexao.prepareStatement(sql.toString());
                 pst.setString(1, cliente.getCpf());
@@ -143,15 +143,15 @@ public class ClienteDAO implements IDAO {
             try {
                 // Abre uma conexao com o banco.
                 conexao = Conexao.getConexao();
+                endDAO = new EnderecoDAO();
                 endDAO.excluir_Cobranca(cliente.getEnd_De_Cobranca());
                 if (!cliente.getEnd_De_Entrega().equals(null)) {
                     for (Endereco endereco : cliente.getEnd_De_Entrega()) {
                         endDAO.excluir_Entrega(endereco);
                     }
                 }
-
+                cartaoDAO = new CartaoCreditoDAO();
                 if (!cliente.getCartaoCredito().equals(null)) {
-                    cartaoDAO = new CartaoCreditoDAO();
                     for (CartaoCredito cartao : cliente.getCartaoCredito()) {
                         cartaoDAO.excluir(cartao);
                     }
@@ -181,8 +181,6 @@ public class ClienteDAO implements IDAO {
         }
     }
 
-    
-
     @Override
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 
@@ -194,25 +192,48 @@ public class ClienteDAO implements IDAO {
 
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
-
-            StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_cliente WHERE id=?");
-            pst = conexao.prepareStatement(sql.toString());
-            pst.setInt(1, cliente.getId());
-            ResultSet rs = pst.executeQuery();
-            System.out.println("clientexx" + cliente.getId());
-            while (rs.next()) {
-                cliente.setNome(rs.getString("nome"));
-                cliente.setCpf(rs.getString("cpf"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setDtNascimento(rs.getDate("dt_nascimento"));
-                cliente.setDtCadastro(rs.getDate("dt_cadastro"));
-                cliente.setGenero(rs.getString("genero"));
-                cliente.setSenha(rs.getString("senha"));
+            cartaoDAO = new CartaoCreditoDAO();
+            endDAO = new EnderecoDAO();
+            if (cliente.getId() != null) {
+                StringBuilder sql = new StringBuilder();
+                sql.append("SELECT * FROM tb_cliente WHERE id_cli=?");
+                pst = conexao.prepareStatement(sql.toString());
+                pst.setInt(1, cliente.getId());
+                ResultSet rs = pst.executeQuery();
+                System.out.println("clientexx" + cliente.getId());
+                while (rs.next()) {
+                    cliente.setNome(rs.getString("nome"));
+                    cliente.setCpf(rs.getString("cpf"));
+                    cliente.setEmail(rs.getString("email"));
+                    cliente.setDtNascimento(rs.getDate("dt_nascimento"));
+                    cliente.setDtCadastro(rs.getDate("dt_cadastro"));
+                    cliente.setSenha(rs.getString("senha"));
+                }
+                cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca_Por_Cliente(cliente));
+                cliente.setEnd_De_Entrega(endDAO.consultar_Entrega_Por_Cliente(cliente));
+                cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
+            } else if (cliente.getEmail() != null && cliente.getSenha() != null) {
+                StringBuilder sql = new StringBuilder();
+                sql.append("SELECT * FROM tb_cliente WHERE email=? AND senha=?");
+                pst = conexao.prepareStatement(sql.toString());
+                pst.setString(1, cliente.getEmail());
+                pst.setString(2, cliente.getSenha());
+                ResultSet rs = pst.executeQuery();
+                System.out.println("clientexx" + cliente.getId());
+                while (rs.next()) {
+                    cliente.setId(rs.getInt("id_cli"));
+                    cliente.setNome(rs.getString("nome"));
+                    cliente.setCpf(rs.getString("cpf"));
+                    cliente.setEmail(rs.getString("email"));
+                    cliente.setDtNascimento(rs.getDate("dt_nascimento"));
+                    cliente.setDtCadastro(rs.getDate("dt_cadastro"));
+                    cliente.setSenha(rs.getString("senha"));
+                }
+                cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca_Por_Cliente(cliente));
+                cliente.setEnd_De_Entrega(endDAO.consultar_Entrega_Por_Cliente(cliente));
+                cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
             }
-            cliente.setEnd_De_Cobranca(endDAO.consultar_Cobranca_Por_Cliente(cliente));
-            cliente.setEnd_De_Entrega(endDAO.consultar_Entrega_Por_Cliente(cliente));
-            cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
+
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de configuração");
@@ -231,7 +252,7 @@ public class ClienteDAO implements IDAO {
         clientes.add(cliente);
         return clientes;
     }
-    
+
     @Override
     public int salvarId(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
