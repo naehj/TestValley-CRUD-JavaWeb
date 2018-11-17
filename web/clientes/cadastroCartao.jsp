@@ -1,45 +1,18 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Turismo</title>
+        <<title>CRUD Cliente</title>
     <c:import  url="../elements/header.jsp"/>
 
 
 </head>
 <body>
-    <div class="container-fluid">   
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">CRUD Cliente</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cliente
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="consultarCliente.jsp">Consultar Clientes</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+    <c:import url="../elements/menu-superior.jsp"/>
 
     <br/> <br/> <br/> <br/> <br/>
     <div class="container">	
@@ -47,18 +20,18 @@
         <form action='novoCartao' method="POST">
             <br/>
             <div class="form-group row">
-                <label for="nomeCartao" class="col-1 col-form-label">Nome do Cartão:</label>
-                <div class="col-11">
+                <label for="nomeCartao" class="col-2 col-form-label">Nome do Cartão:</label>
+                <div class="col-10">
                     <input class="form-control" type="text" id="nomeCartao" name="nomeCartao" >
                 </div>
             </div>
             <div class="form-group row">
 
-                <label for="numeroCartao" class="col-1 col-form-label">Número Cartão:</label>
+                <label for="numeroCartao" class="col-2 col-form-label">Número Cartão:</label>
                 <div class="col-5">
                     <input class="form-control" type="text" id="numeroCartao" name="numeroCartao">
                 </div>
-                <label for="codigoCartao" class="col-1 col-form-label">Código de Segurança:</label>
+                <label for="codigoCartao" class="col-2 col-form-label">Código de Segurança:</label>
                 <div class="col-2">
                     <input class="form-control" type="text" id="codigoCartao" name="codigoCartao" >
                 </div>
@@ -66,7 +39,7 @@
             </div>
             <div class="form-group row">
                 
-                <label for="bandeira" class="col-1 cm-label">Bandeira:</label>
+                <label for="bandeira" class="col-2 cm-label">Bandeira:</label>
                 <div class="col-2">
                     <input class="form-control" type="text" id="bandeira" name="bandeira">
                 </div>
