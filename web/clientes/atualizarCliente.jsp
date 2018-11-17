@@ -12,45 +12,16 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         <c:import  url="../elements/header.jsp"/>
-        <title>Turismo</title>
+        <title>CRUD Cliente</title>
     </head>
     <body>
-        <div class="container-fluid">   
-
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">CRUD Cliente</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Cliente
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="consultarCliente.jsp">Consultar Clientes</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        <c:import url="../elements/menu-superior.jsp"/>
 
         <br/> <br/> <br/> <br/> <br/>
 
         <div class="container">	
             <h1>Atualizar Cliente</h1>
-            <form action='atualizar' method="POST">
+            <form action='atualizarCliente' method="POST">
 
                 <div class="form-group row">
                     <label for="nome" class="col-2 col-form-label">Nome:</label>
@@ -74,32 +45,35 @@
                 <div class="form-group row">
 
                     <label for="email" class="col-2 col-form-label">E-mail:</label>
-                    <div class="col-5">
+                    <div class="col-3">
                         <input class="form-control" type="text" id="email" name="email"  value="${resultado.get(0).email}">
+                    </div>
+                    <label for="senha" class="col-2 col-form-label">Senha:</label>
+                    <div class="col-3">
+                        <input class="form-control" type="password" id="email" name="senha"  value="${resultado.get(0).senha}">
                     </div>
 
                 </div>
                 <hr/>
+                <input type="hidden" name="operacao" value="ATUALIZAR">
+                <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
+                <input class="btn btn-primary" type="submit" value="Atualizar">
+            </form>
         </div>
 
-        <input type="hidden" name="idEndereco" value="${resultado.get(0).endereco.id}"/>
-        <input type="hidden" name="operacao" value="ATUALIZAR">
-        <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
-        <input class="btn btn-primary" type="submit" value="atualizar">
         <br/>
         <c:if test="${mensagem != null}">
             <br/>
             <p>${mensagem}</p>
         </c:if>
-    </form>
-    <br/>
-</div>
+        <br/>
+    </div>
 
 
 
 
-<!-- Bootstrap core JavaScript -->
-<c:import  url="../elements/footer.jsp"/>
+    <!-- Bootstrap core JavaScript -->
+    <c:import  url="../elements/footer.jsp"/>
 </body>
 </html>
 
