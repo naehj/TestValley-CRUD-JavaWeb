@@ -15,7 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -183,18 +185,18 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_cobranca INNER JOIN tb_cliente_endereco_cobranca WHERE id_cli=?");
+            sql.append("SELECT endereco.* FROM tb_endereco_cobranca endereco LEFT JOIN tb_cliente_endereco_cobranca cliente_endereco ON id_cli=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 endereco = new Endereco();
+                endereco.setId(rs.getInt("id_end"));
                 endereco.setCep(rs.getString("cep"));
                 endereco.setCidade(rs.getString("cidade"));
                 endereco.setComplemento(rs.getString("complemento"));
                 endereco.setDtCadastro(rs.getDate("dt_cadastro"));
                 endereco.setEstado(rs.getString("estado"));
-                endereco.setId(rs.getInt("id_end"));
                 endereco.setLogradouro(rs.getString("logradouro"));
                 endereco.setNumero(rs.getString("numero"));
                 endereco.setPais(rs.getString("pais"));
@@ -221,16 +223,16 @@ public class EnderecoDAO implements IDAO {
         return endereco;
     }
 
-    public List<Endereco> consultar_Entrega_Por_Cliente(EntidadeDominio entidade) throws SQLException {
-        List<Endereco> enderecos = null;
+    public HashSet<Endereco> consultar_Entrega_Por_Cliente(EntidadeDominio entidade) throws SQLException {
+        HashSet<Endereco> enderecos = new HashSet<>();
         Cliente cliente = (Cliente) entidade;
-        Endereco endereco = null;
+        Endereco endereco;
         try {
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega WHERE id_cli=?");
+            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega ON id_cli=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
@@ -252,7 +254,6 @@ public class EnderecoDAO implements IDAO {
 
             // Fecha a conexao.
             conexao.close();
-            return enderecos;
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de configuração");
@@ -267,7 +268,7 @@ public class EnderecoDAO implements IDAO {
                 e.printStackTrace();
             }
         }
-        return null;
+        return enderecos;
     }
 
     public Endereco consultar_Cobranca_Por_Endereco(EntidadeDominio entidade) throws SQLException {
@@ -277,7 +278,7 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_cobranca INNER JOIN tb_cliente_endereco_cobranca WHERE id_end=?");
+            sql.append("SELECT * FROM tb_endereco_cobranca INNER JOIN tb_cliente_endereco_cobranca ON id_end=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, endereco.getId());
             ResultSet rs = pst.executeQuery();
@@ -322,7 +323,7 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega WHERE id_end=?");
+            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega ON id_end=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, endereco.getId());
             ResultSet rs = pst.executeQuery();
@@ -390,7 +391,7 @@ public class EnderecoDAO implements IDAO {
                 cliente.getEnd_De_Cobranca().setId(generatedKeys.getInt(1));
             }
             StringBuilder sql2 = new StringBuilder();
-            sql2.append("INSERT INTO tb_cliente_cobranca(id_end, id_cli)");
+            sql2.append("INSERT INTO tb_cliente_endereco_cobranca(id_end, id_cli)");
             sql2.append("VALUES(?, ?)");
             pst = conexao.prepareStatement(sql2.toString());
             pst.setInt(1, cliente.getEnd_De_Cobranca().getId());
@@ -404,8 +405,7 @@ public class EnderecoDAO implements IDAO {
         } catch (SQLException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
-        }
-         finally {
+        } finally {
             try {
                 pst.close();
                 conexao.close();
@@ -444,7 +444,7 @@ public class EnderecoDAO implements IDAO {
                 endereco.setId(generatedKeys.getInt(1));
             }
             StringBuilder sql2 = new StringBuilder();
-            sql2.append("INSERT INTO tb_cliente_entrega(id_end, id_cli)");
+            sql2.append("INSERT INTO tb_cliente_endereco_entrega(id_end, id_cli)");
             sql2.append("VALUES(?, ?)");
             pst = conexao.prepareStatement(sql2.toString());
             pst.setInt(1, endereco.getId());
