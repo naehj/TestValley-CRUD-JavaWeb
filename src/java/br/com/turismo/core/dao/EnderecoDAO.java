@@ -153,7 +153,7 @@ public class EnderecoDAO implements IDAO {
 
                 StringBuilder sql = new StringBuilder();
 
-                sql.append("DELETE FROM tb_endereco_entrega * WHERE id=?");
+                sql.append("DELETE FROM tb_endereco_entrega * WHERE id_end=?");
                 PreparedStatement pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, endereco.getId());
                 pst.execute();
@@ -232,7 +232,7 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega ON id_cli=?");
+            sql.append("SELECT endereco.* FROM tb_endereco_entrega endereco LEFT JOIN tb_cliente_endereco_entrega cliente_endereco ON endereco.id_end = cliente_endereco.id_end AND cliente_endereco.id_cli = ?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();
@@ -278,7 +278,7 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_cobranca INNER JOIN tb_cliente_endereco_cobranca ON id_end=?");
+            sql.append("SELECT * FROM tb_endereco_cobranca WHERE id_end=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, endereco.getId());
             ResultSet rs = pst.executeQuery();
@@ -323,7 +323,7 @@ public class EnderecoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT * FROM tb_endereco_entrega INNER JOIN tb_cliente_endereco_entrega ON id_end=?");
+            sql.append("SELECT * FROM tb_endereco_entrega WHERE id_end=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, endereco.getId());
             ResultSet rs = pst.executeQuery();
