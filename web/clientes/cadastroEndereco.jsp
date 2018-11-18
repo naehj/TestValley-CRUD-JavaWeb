@@ -19,7 +19,7 @@
 
         <br/> <br/> <br/> <br/> <br/>
         <div class="container">
-            <h1>Cadastrar Endereco</h1>
+            <h1>Cadastrar Endereço de Entrega</h1>
             <form action="novoEndereco_Entrega" method="POST">
                 <div class="form-group row">
                     <label for="cep" class="col-2 col-form-label">CEP:</label>
