@@ -293,6 +293,23 @@ public class ClienteViewHelper implements IViewHelper {
             }
         }
 
+        if (operacao.equals("NOVOEE")) {
+            cliente = new Cliente();
+
+            String id = request.getParameter("idCliente");
+
+            if (id != null && !id.trim().equals("")) {
+
+                cliente.setId(Integer.parseInt(id));
+
+                return cliente;
+
+            } else {
+
+                return cliente;
+            }
+        }
+
         if (operacao.equals("PREATUALIZAR")) {
             cliente = new Cliente();
 
@@ -326,7 +343,7 @@ public class ClienteViewHelper implements IViewHelper {
                 return cliente;
             }
         }
-        
+
         if (operacao.equals("LISTARENDERECOS")) {
             cliente = new Cliente();
 
@@ -407,7 +424,10 @@ public class ClienteViewHelper implements IViewHelper {
                 rd = request.getRequestDispatcher("atualizarCliente.jsp");
 
             } else {
-
+                ConsultarCommand consulta = new ConsultarCommand();
+                cliente = new Cliente();
+                cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
+                resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
                 //request.getSession().setAttribute("auditoria", resultado.getEntidade());
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
@@ -417,7 +437,7 @@ public class ClienteViewHelper implements IViewHelper {
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
                 //request.getSession().setAttribute("auditoria", resultado.getEntidade());
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
@@ -431,7 +451,7 @@ public class ClienteViewHelper implements IViewHelper {
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
@@ -439,13 +459,25 @@ public class ClienteViewHelper implements IViewHelper {
                 rd = request.getRequestDispatcher("cadastroCartao.jsp");
             }
 
-        } //fim consultar
-        else if (operacao.equals("PREATUALIZAR")) {
+        } else if (operacao.equals("NOVOEE")) {
 
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
+
+            } else {
+                request.getSession().setAttribute("resultado", resultado.getEntidades());
+
+                rd = request.getRequestDispatcher("cadastroEndereco.jsp");
+            }
+
+        } else if (operacao.equals("PREATUALIZAR")) {
+
+            if (resultado.getMsg() != null) {
+                request.getSession().setAttribute("mensagem", resultado.getMsg());
+
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
@@ -459,7 +491,7 @@ public class ClienteViewHelper implements IViewHelper {
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
@@ -467,12 +499,12 @@ public class ClienteViewHelper implements IViewHelper {
                 rd = request.getRequestDispatcher("listarCartoes.jsp");
             }
 
-        } else if (operacao.equals("LISTARCARTOES")) {
+        } else if (operacao.equals("LISTARENDERECOS")) {
 
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
@@ -511,7 +543,6 @@ public class ClienteViewHelper implements IViewHelper {
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
-                ConsultarCommand consulta = new ConsultarCommand();
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
 
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
