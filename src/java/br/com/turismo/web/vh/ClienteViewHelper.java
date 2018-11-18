@@ -270,7 +270,7 @@ public class ClienteViewHelper implements IViewHelper {
         if (operacao.equals("EXCLUIR")) {
 
             cliente = new Cliente();
-            cliente.setId(Integer.parseInt(request.getParameter("id")));
+            cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
 
             return cliente;
 
@@ -529,12 +529,12 @@ public class ClienteViewHelper implements IViewHelper {
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("../login.jsp");
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidade());
 
-                rd = request.getRequestDispatcher("consultarCliente.jsp");
+                rd = request.getRequestDispatcher("../login.jsp");
             }
         } else if (operacao.equals("AUTENTICAR")) {
             if (resultado.getMsg() != null) {
