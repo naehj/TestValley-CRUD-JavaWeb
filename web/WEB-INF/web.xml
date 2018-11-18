@@ -68,6 +68,16 @@
 
 <servlet-mapping>
 	<servlet-name>Servlet</servlet-name>
+	<url-pattern>/clientes/atualizarEndereco_Cobranca</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+	<servlet-name>Servlet</servlet-name>
+	<url-pattern>/clientes/atualizarEndereco_Entrega</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+	<servlet-name>Servlet</servlet-name>
 	<url-pattern>/clientes/removerCartao</url-pattern>
 </servlet-mapping>
 
