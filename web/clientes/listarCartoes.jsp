@@ -65,5 +65,7 @@
                 <br/>
             </form>
         </div>
+        <!-- Bootstrap core JavaScript -->
+        <c:import  url="../elements/footer.jsp"/>
     </body>
 </html>
