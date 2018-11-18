@@ -113,15 +113,14 @@ public class EnderecoDAO implements IDAO {
 
     public void excluir_Cobranca(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
-        if (endereco.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
-                Connection conexao = Conexao.getConexao();
+                conexao = Conexao.getConexao();
 
                 StringBuilder sql = new StringBuilder();
 
                 sql.append("DELETE FROM tb_endereco_cobranca * WHERE id_end=?");
-                PreparedStatement pst = conexao.prepareStatement(sql.toString());
+                pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, endereco.getId());
                 pst.execute();
 
@@ -142,19 +141,17 @@ public class EnderecoDAO implements IDAO {
                 }
             }
         }
-    }
 
     public void excluir_Entrega(EntidadeDominio entidade) throws SQLException {
         Endereco endereco = (Endereco) entidade;
-        if (endereco.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
-                Connection conexao = Conexao.getConexao();
+                conexao = Conexao.getConexao();
 
                 StringBuilder sql = new StringBuilder();
 
                 sql.append("DELETE FROM tb_endereco_entrega * WHERE id_end=?");
-                PreparedStatement pst = conexao.prepareStatement(sql.toString());
+                pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, endereco.getId());
                 pst.execute();
 
@@ -175,7 +172,6 @@ public class EnderecoDAO implements IDAO {
                 }
             }
         }
-    }
 
     public Endereco consultar_Cobranca_Por_Cliente(EntidadeDominio entidade) throws SQLException {
         Cliente cliente = (Cliente) entidade;
