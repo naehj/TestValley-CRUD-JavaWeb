@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,7 +44,7 @@ public class CartaoCreditoDAO implements IDAO {
 
                 StringBuilder sql = new StringBuilder();
 
-                sql.append("UPDATE cartaocredito SET numero=?, nome=?, bandeira=?, codigo=? WHERE id=?");
+                sql.append("UPDATE tb_cartao SET n_cartao=?, nome=?, bandeira=?, codigo=? WHERE id_cartao=?");
 
                 pst = conexao.prepareStatement(sql.toString());
                 pst.setString(1, cartao.getNumero());
@@ -150,6 +152,43 @@ public class CartaoCreditoDAO implements IDAO {
 
         return cartoes;
     }
+    
+    @Override
+    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
+        cartao = (CartaoCredito) entidade;
+        try {
+            // Abre uma conexao com o banco.
+            conexao = Conexao.getConexao();
+            
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT * FROM tb_cartao WHERE id_cartao=?");
+            pst = conexao.prepareStatement(sql.toString());
+            pst.setInt(1, cartao.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                cartao.setNome(rs.getString("nome"));
+                cartao.setNumero(rs.getString("n_cartao"));
+                cartao.setCodigo(rs.getString("codigo"));
+                cartao.setBandeira(rs.getString("bandeira"));
+            }
+        } catch (SQLException erro) {
+            erro.printStackTrace();
+            //throw new ExcecaoAcessoDados("Houve um problema de conectividade");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CartaoCreditoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<EntidadeDominio> cartoes = new ArrayList<>();
+        cartoes.add(cartao);
+        return cartoes;
+    }
 
     public int salvarId_Cartao(EntidadeDominio entidade_cli, EntidadeDominio entidade_cartao) throws SQLException {
         Cliente cliente = (Cliente) entidade_cli;
@@ -214,10 +253,4 @@ public class CartaoCreditoDAO implements IDAO {
     public int salvarId(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
