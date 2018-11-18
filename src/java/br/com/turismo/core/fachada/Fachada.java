@@ -64,7 +64,7 @@ public class Fachada implements IFachada {
 
         List<IStrategy> regrasSalvarCliente = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na operação salvar do cliente*/
-       regrasSalvarCliente.add(clienteDadosObrigatorios);
+        regrasSalvarCliente.add(clienteDadosObrigatorios);
 
         regrasSalvarCliente.add(validarEmail);
         regrasSalvarCliente.add(validarSenha);
@@ -74,9 +74,9 @@ public class Fachada implements IFachada {
          */
         List<IStrategy> regrasAtualizarCliente = new ArrayList<IStrategy>();
         /* Adicionando as regras a serem utilizadas na operação atuallizar do cliente*/
-         regrasSalvarCliente.add(clienteDadosObrigatorios);
+        regrasSalvarCliente.add(clienteDadosObrigatorios);
         regrasAtualizarCliente.add(clienteDadosObrigatorios);
-regrasAtualizarCliente.add(validarEmail);   
+        regrasAtualizarCliente.add(validarEmail);
         /* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
 		 * por operação  do cliente
          */
@@ -135,16 +135,60 @@ regrasAtualizarCliente.add(validarEmail);
 
         if (msg == null) {
             IDAO dao = daos.get(nmClasse);
-            try {
-                dao.salvar(entidade);
-                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+            if (dao instanceof ClienteDAO) {
+                try {
+                    dao.salvar(entidade);
+                    List<EntidadeDominio> entidades = new ArrayList<>();
+                    entidades.add(entidade);
+                    resultado.setEntidades(entidades);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    resultado.setMsg("Não foi possível realizar o registro!");
+                }
+            } else if (dao instanceof EnderecoDAO) {
+                ((EnderecoDAO) dao).salvarId_Cobranca(entidade);
+                List<EntidadeDominio> entidades = new ArrayList<>();
                 entidades.add(entidade);
                 resultado.setEntidades(entidades);
+            }
+        } else {
+            resultado.setMsg(msg);
+            System.out.println("seta msg erro");
+        }
+        return resultado;
+    }
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                resultado.setMsg("Não foi possível realizar o registro!");
+    @Override
+    public Resultado salvar(EntidadeDominio entidadeCli, EntidadeDominio entidadeAlt) {
 
+        resultado = new Resultado();
+
+        String nmClasse = entidadeAlt.getClass().getName();
+
+        String msg = executarRegras(entidadeAlt, "SALVAR");
+
+        if (msg == null) {
+            IDAO dao = daos.get(nmClasse);
+            if (dao instanceof EnderecoDAO) {
+                try {
+                    ((EnderecoDAO) dao).salvarId_Entrega(entidadeCli, entidadeAlt);
+                    List<EntidadeDominio> entidades = new ArrayList<>();
+                    entidades.add(entidadeAlt);
+                    resultado.setEntidades(entidades);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    resultado.setMsg("Não foi possível realizar o registro!");
+                }
+            } else if (dao instanceof CartaoCreditoDAO) {
+                try {
+                    ((CartaoCreditoDAO) dao).salvarId_Cartao(entidadeCli, entidadeAlt);
+                    List<EntidadeDominio> entidades = new ArrayList<>();
+                    entidades.add(entidadeAlt);
+                    resultado.setEntidades(entidades);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    resultado.setMsg("Não foi possível realizar o registro!");
+                }
             }
         } else {
             resultado.setMsg(msg);
@@ -160,28 +204,41 @@ regrasAtualizarCliente.add(validarEmail);
         String nmClasse = entidade.getClass().getName();
 
         //String msg = executarRegras(entidade, "ATUALIZAR");
-        
-       // if (msg == null) {
-            IDAO dao = daos.get(nmClasse);
+        // if (msg == null) {
+        IDAO dao = daos.get(nmClasse);
+        if (dao instanceof EnderecoDAO) {
             try {
-                dao.atualizar(entidade);
-                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-                entidades.add(entidade);
-                resultado.setEntidades(entidades);
-                 System.out.println("erro na fachada ddd ok?");
+                if (((EnderecoDAO) dao).consultar_Cobranca_Por_Endereco(entidade) != null) {
+                    ((EnderecoDAO) dao).atualizar_Cobranca(entidade);
+                }
+                if (((EnderecoDAO) dao).consultar_Entrega_Por_Endereco(entidade) != null) {
+                    ((EnderecoDAO) dao).atualizar_Entrega(entidade);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 resultado.setMsg("Não foi possível realizar o registro!");
 
             }
+        } else {
+            try {
+                dao.atualizar(entidade);
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+                entidades.add(entidade);
+                resultado.setEntidades(entidades);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                resultado.setMsg("Não foi possível realizar o registro!");
+
+            }
+        }
         //} else {
-            //resultado.setMsg(msg);
-          //  List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-          //  entidades.add(entidade);
-         //   System.out.println("erro na fachada?");
- //    }
-        
- System.out.println("erro na fachadssssa?");   
+        //resultado.setMsg(msg);
+        //  List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+        //  entidades.add(entidade);
+        //   System.out.println("erro na fachada?");
+        //    }
+
+        System.out.println("erro na fachadssssa?");
         return resultado;
 
     }
@@ -195,19 +252,35 @@ regrasAtualizarCliente.add(validarEmail);
         //String msg = executarRegras(entidade, "EXCLUIR");
         //if(msg == null){
         IDAO dao = daos.get(nmClasse);
-        try {
-            dao.excluir(entidade);
-            List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
-            entidades.add(entidade);
-            resultado.setEntidades(entidades);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resultado.setMsg("Não foi possível realizar o registro!!");
+        if (dao instanceof EnderecoDAO) {
+            try {
+                if (((EnderecoDAO) dao).consultar_Cobranca_Por_Endereco(entidade) != null) {
+                    ((EnderecoDAO) dao).excluir_Cobranca(entidade);
+                }
+                if (((EnderecoDAO) dao).consultar_Entrega_Por_Endereco(entidade) != null) {
+                    ((EnderecoDAO) dao).excluir_Entrega(entidade);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                resultado.setMsg("Não foi possível excluir o registro!");
+
+            }
+        } else {
+            try {
+                dao.excluir(entidade);
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+                entidades.add(entidade);
+                resultado.setEntidades(entidades);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                resultado.setMsg("Não foi possível excluir o registro!");
+
+            }
 
         }
+
         //}else{
         //	resultado.setMsg(msg);
-
         //}
         return resultado;
 
@@ -222,24 +295,38 @@ regrasAtualizarCliente.add(validarEmail);
         //String msg = executarRegras(entidade, "CONSULTAR");
         //if(msg == null){
         IDAO dao = daos.get(nmClasse);
-        try {
+        if (dao instanceof EnderecoDAO) {
+            try {
+                if (((EnderecoDAO) dao).consultar_Cobranca_Por_Endereco(entidade) != null) {
+                    resultado.setEntidade(((EnderecoDAO) dao).consultar_Cobranca_Por_Endereco(entidade));
+                }
+                if (((EnderecoDAO) dao).consultar_Entrega_Por_Endereco(entidade) != null) {
+                    resultado.setEntidade(((EnderecoDAO) dao).consultar_Entrega_Por_Endereco(entidade));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                resultado.setMsg("Não foi possível realizar o registro!");
 
-            resultado.setEntidades(dao.consultar(entidade));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resultado.setMsg("Não foi possível realizar a consulta!");
+            }
 
+        } else {
+            try {
+                dao.consultar(entidade);
+                List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+                entidades.add(entidade);
+                resultado.setEntidades(entidades);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                resultado.setMsg("Não foi possível realizar o registro!");
+
+            }
         }
-        //}else{
-        //	resultado.setMsg(msg);
-
-        //}
         return resultado;
-
     }
 
     @Override
-    public Resultado visualizar(EntidadeDominio entidade) {
+    public Resultado visualizar(EntidadeDominio entidade
+    ) {
         resultado = new Resultado();
 
         resultado.setEntidades(new ArrayList<EntidadeDominio>());
@@ -249,7 +336,8 @@ regrasAtualizarCliente.add(validarEmail);
     }
 
     @Override
-    public Resultado listarfiltro(EntidadeDominio entidade) {
+    public Resultado listarfiltro(EntidadeDominio entidade
+    ) {
         resultado = new Resultado();
 
         String nomeClasse = entidade.getClass().getName();
