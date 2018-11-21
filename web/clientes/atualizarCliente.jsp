@@ -26,7 +26,11 @@
                 <div class="form-group row">
                     <label for="nome" class="col-2 col-form-label">Nome:</label>
                     <div class="col-6">
-                        <input class="form-control" type="text" id="nome" name="nome"   value="${resultado.get(0).nome}">
+                        <input class="form-control" type="text" id="nome" name="nome" value="${resultado.get(0).nome}">
+                    </div>
+                    <label for="genero" class="col-2 col-form-label">Gênero:</label>
+                    <div class="col-2">
+                        <input class="form-control" type="text" id="nome" name="genero" value="${resultado.get(0).genero}">
                     </div>
                 </div>
 

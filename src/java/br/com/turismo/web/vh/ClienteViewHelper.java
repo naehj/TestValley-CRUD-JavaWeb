@@ -220,6 +220,7 @@ public class ClienteViewHelper implements IViewHelper {
             String senha = request.getParameter("senha");
             String dtNascimento = request.getParameter("dtNasc");
             String idCliente = request.getParameter("idCliente");
+            String genero = request.getParameter("genero");
 
             cliente.setId(Integer.parseInt(idCliente));
 
@@ -241,6 +242,10 @@ public class ClienteViewHelper implements IViewHelper {
 
             if (dtNascimento != null && !dtNascimento.trim().equals("")) {
                 cliente.setDtNascimento(ConverteDate.converteStringDate(dtNascimento));
+            }
+
+            if (genero != null && !genero.trim().equals("")) {
+                cliente.setGenero(genero);
             }
 
             return cliente;

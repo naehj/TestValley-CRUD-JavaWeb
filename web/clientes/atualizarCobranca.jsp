@@ -53,7 +53,7 @@
 
                     <label for="complemento" class="col-2 cm-label">Complemento:</label>
                     <div class="col-5">
-                        <input class="form-control" type="text" id="complementoC" name="complemento" value="${resultado.get(0).end_De_Cobranca.cidade}">
+                        <input class="form-control" type="text" id="complementoC" name="complemento" value="${resultado.get(0).end_De_Cobranca.complemento}">
                     </div>
                 </div>
                 <div class="form-group row">

@@ -24,28 +24,28 @@ import java.util.List;
  * @author hisak
  */
 public class ClienteDAO implements IDAO {
-    
+
     EnderecoDAO endDAO;
     CartaoCreditoDAO cartaoDAO;
     PreparedStatement pst;
     Connection conexao;
-    
+
     @Override
     public void salvar(EntidadeDominio entidade) {
         Cliente cliente = (Cliente) entidade;
 
         //Salvando endereco de Cobrança
         endDAO = new EnderecoDAO();
-        
+
         try {
             // Abre uma conexao com o banco.
             conexao = Conexao.getConexao();
-            
+
             StringBuilder sql = new StringBuilder();
             sql.append("INSERT INTO tb_cliente (dt_cadastro, nome, cpf, genero, dt_nascimento, email, senha)");
             sql.append(" VALUES(?, ?, ?, ?, ?, ?, ?)");
             pst = conexao.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-            
+
             pst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
             pst.setString(2, cliente.getNome());
             pst.setString(3, cliente.getCpf());
@@ -54,13 +54,13 @@ public class ClienteDAO implements IDAO {
             pst.setDate(5, dataSQL);
             pst.setString(6, cliente.getEmail());
             pst.setString(7, cliente.getSenha());
-            
+
             pst.execute();
             ResultSet generatedKeys = pst.getGeneratedKeys();
             if (null != generatedKeys && generatedKeys.next()) {
                 cliente.setId(generatedKeys.getInt(1));
             }
-            
+
             endDAO.salvarId_Cobranca(cliente);
 
             //Salvando endereços de entrega
@@ -77,13 +77,13 @@ public class ClienteDAO implements IDAO {
                     cartaoDAO.salvarId_Cartao(cliente, cartao);
                 }
             }
-            
+
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
-            
+
         } catch (SQLException erro) {
             erro.printStackTrace();
-            
+
         } finally {
             try {
                 pst.close();
@@ -92,21 +92,21 @@ public class ClienteDAO implements IDAO {
                 e.printStackTrace();
             }
         }
-        
+
     }
-    
+
     @Override
     public void atualizar(EntidadeDominio entidade) {
         Cliente cliente = (Cliente) entidade;
-        
+
         if (cliente.getId() != 0) {
             try {
                 // Abre uma conexao com o banco.
                 conexao = Conexao.getConexao();
-                
+
                 StringBuilder sql = new StringBuilder();
                 sql.append("UPDATE tb_cliente SET cpf=?, dt_nascimento=?, email=?, nome=?, senha=?, genero=? WHERE id_cli=?");
-                
+
                 pst = conexao.prepareStatement(sql.toString());
                 pst.setString(1, cliente.getCpf());
                 java.sql.Date dataSQL = new Date(cliente.getDtNascimento().getTime());
@@ -117,13 +117,13 @@ public class ClienteDAO implements IDAO {
                 pst.setString(6, cliente.getGenero());
                 pst.setInt(7, cliente.getId());
                 pst.execute();
-                
+
             } catch (ClassNotFoundException erro) {
                 erro.printStackTrace();
-                
+
             } catch (SQLException erro) {
                 erro.printStackTrace();
-                
+
             } finally {
                 try {
                     pst.close();
@@ -134,7 +134,7 @@ public class ClienteDAO implements IDAO {
             }
         }
     }
-    
+
     @Override
     public void excluir(EntidadeDominio entidade) {
         Cliente cliente = (Cliente) entidade;
@@ -157,20 +157,20 @@ public class ClienteDAO implements IDAO {
                         cartaoDAO.excluir(cartao);
                     }
                 }
-                
+
                 StringBuilder sql = new StringBuilder();
                 sql.append("DELETE FROM tb_cliente * WHERE id_cli = ?");
-                
+
                 pst = conexao.prepareStatement(sql.toString());
                 pst.setInt(1, cliente.getId());
                 pst.execute();
-                
+
             } catch (ClassNotFoundException erro) {
                 erro.printStackTrace();
-                
+
             } catch (SQLException erro) {
                 erro.printStackTrace();
-                
+
             } finally {
                 try {
                     pst.close();
@@ -181,14 +181,14 @@ public class ClienteDAO implements IDAO {
             }
         }
     }
-    
+
     @Override
     public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
-        
+
         List<EntidadeDominio> clientes = null;
         Cliente cliente = (Cliente) entidade;
         System.out.println("cliente dao" + cliente.getId());
-        
+
         try {
 
             // Abre uma conexao com o banco.
@@ -206,6 +206,7 @@ public class ClienteDAO implements IDAO {
                     cliente.setNome(rs.getString("nome"));
                     cliente.setCpf(rs.getString("cpf"));
                     cliente.setEmail(rs.getString("email"));
+                    cliente.setGenero(rs.getString("genero"));
                     cliente.setDtNascimento(rs.getDate("dt_nascimento"));
                     cliente.setDtCadastro(rs.getDate("dt_cadastro"));
                     cliente.setSenha(rs.getString("senha"));
@@ -226,6 +227,7 @@ public class ClienteDAO implements IDAO {
                     cliente.setNome(rs.getString("nome"));
                     cliente.setCpf(rs.getString("cpf"));
                     cliente.setEmail(rs.getString("email"));
+                    cliente.setGenero(rs.getString("genero"));
                     cliente.setDtNascimento(rs.getDate("dt_nascimento"));
                     cliente.setDtCadastro(rs.getDate("dt_cadastro"));
                     cliente.setSenha(rs.getString("senha"));
@@ -234,7 +236,7 @@ public class ClienteDAO implements IDAO {
                 cliente.setEnd_De_Entrega(endDAO.consultar_Entrega_Por_Cliente(cliente));
                 cliente.setCartaoCredito(cartaoDAO.consultar_Cartao(cliente));
             }
-            
+
         } catch (ClassNotFoundException erro) {
             erro.printStackTrace();
             //throw new ExcecaoAcessoDados("Houve um problema de configuração");
@@ -253,12 +255,12 @@ public class ClienteDAO implements IDAO {
         clientes.add(cliente);
         return clientes;
     }
-    
+
     @Override
     public int salvarId(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public List<EntidadeDominio> filtrar(EntidadeDominio entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

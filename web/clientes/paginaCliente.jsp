@@ -45,8 +45,11 @@
                     <input type="hidden" name="idEndereco" value="${endereco.id}"/>
                     <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
                     <input type="hidden" name="operacao" value="PREATUALIZAR"/>
-                    <input class="btn btn-primary" type="submit" value="Editar Endereço" style="width: 220.72px"/>
+                    <input class="btn btn-primary" type="submit" value="Editar Endereço de Cobrança" style="width: 220.72px"/>
                 </form>
+            </div>
+            <div class="form-group row">
+                <a href="cadastroCliente.jsp" class="btn btn-primary" style="width: 220.72px">Cadastrar novo cliente</a>
             </div>
         </div>
         <div class="container">	
@@ -59,6 +62,10 @@
                 <label for="nome" class="col-1 col-form-label">Nome:</label>
                 <div class="col-5">
                     <input class="form-control" type="text" id="nome" name="nome"  disabled value="${resultado.get(0).nome}">
+                </div>
+                <label for="genero" class="col-2 col-form-label">Gênero:</label>
+                <div class="col-2">
+                    <input class="form-control" type="text" id="nome" name="genero" disabled value="${resultado.get(0).genero}">
                 </div>
             </div>
             <div class="form-group row">
