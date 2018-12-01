@@ -177,6 +177,7 @@ public class CartaoCreditoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado.getEntidades().add(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("atualizarCartao.jsp");
             }

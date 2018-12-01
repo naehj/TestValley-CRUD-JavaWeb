@@ -332,6 +332,23 @@ public class ClienteViewHelper implements IViewHelper {
             }
         } // PREATUALIZAR
 
+        if (operacao.equals("LISTARCLIENTES")) {
+            cliente = new Cliente();
+
+            String nome = request.getParameter("nomeCliente");
+
+            if (nome != null && !nome.trim().equals("")) {
+
+                cliente.setNome(nome);
+
+                return cliente;
+
+            } else {
+
+                return cliente;
+            }
+        }
+
         if (operacao.equals("LISTARCARTOES")) {
             cliente = new Cliente();
 
@@ -464,6 +481,7 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("cadastroCartao.jsp");
             }
@@ -477,6 +495,7 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("cadastroEndereco.jsp");
             }
@@ -492,10 +511,12 @@ public class ClienteViewHelper implements IViewHelper {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
 
                 rd = request.getRequestDispatcher("atualizarCliente.jsp");
+                request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
             }
 
         } //fim consultar
-        else if (operacao.equals("LISTARCARTOES")) {
+        else if (operacao.equals("LISTARCLIENTES")) {
 
             if (resultado.getMsg() != null) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
@@ -504,6 +525,21 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
+
+                rd = request.getRequestDispatcher("listarClientes.jsp");
+            }
+
+        } else if (operacao.equals("LISTARCARTOES")) {
+
+            if (resultado.getMsg() != null) {
+                request.getSession().setAttribute("mensagem", resultado.getMsg());
+
+                rd = request.getRequestDispatcher("paginaCliente.jsp");
+
+            } else {
+                request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("listarCartoes.jsp");
             }
@@ -517,6 +553,7 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("listarEnderecos.jsp");
             }
@@ -530,6 +567,7 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", null);
 
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
             }

@@ -219,6 +219,7 @@ public class EnderecoViewHelper implements IViewHelper {
 
                 if (request.getRequestURI().contains("Cobranca")) {
                     request.getSession().setAttribute("resultado", resultado.getEntidades());
+                    request.getSession().setAttribute("mensagem", null);
                     rd = request.getRequestDispatcher("atualizarCobranca.jsp");
                 } else if (request.getRequestURI().contains("Entrega")) {
                     cliente = new Cliente();
@@ -228,6 +229,7 @@ public class EnderecoViewHelper implements IViewHelper {
                     entidades.add(cliente);
                     resultado.setEntidades(entidades);
                     request.getSession().setAttribute("resultado", resultado.getEntidades());
+                    request.getSession().setAttribute("mensagem", null);
                     rd = request.getRequestDispatcher("atualizarEntrega.jsp");
                 }
 
