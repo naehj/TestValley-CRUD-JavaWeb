@@ -118,7 +118,7 @@ public class CartaoCreditoDAO implements IDAO {
             conexao = Conexao.getConexao();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT cartao.* FROM tb_cartao cartao LEFT JOIN tb_cliente_cartao cliente_cartao ON cartao.id_cartao = cliente_cartao.id_cartao AND cliente_cartao.id_cli=?");
+            sql.append("SELECT cartao.* FROM tb_cartao cartao INNER JOIN tb_cliente_cartao cliente_cartao ON cartao.id_cartao = cliente_cartao.id_cartao AND cliente_cartao.id_cli=?");
             pst = conexao.prepareStatement(sql.toString());
             pst.setInt(1, cliente.getId());
             ResultSet rs = pst.executeQuery();

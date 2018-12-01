@@ -60,7 +60,7 @@
                                     <form action="excluir" method="POST">
                                         <input type="hidden" name="idCliente" value="${cliente.id}"/>
                                         <input type="hidden" name="operacao" value="EXCLUIR"/>
-                                        <input class="btn btn-danger" type="submit" value="Remover Cartão"/>
+                                        <input class="btn btn-danger" type="submit" value="Remover Cliente"/>
                                     </form>
                                 </th>
                             </tr>
@@ -70,6 +70,7 @@
                 <hr/>
             </c:forEach>
             <form action='cadastroCliente.jsp' method="POST">
+            <c:set var="mensagem" value="${null}"></c:set>
                 <li style="list-style: none; text-align: center;">
                     <button class="btn btn-circle" style= "color:#007bff" type="submit">
                         <i class="material-icons" title="Adicionar novo cliente">add</i>

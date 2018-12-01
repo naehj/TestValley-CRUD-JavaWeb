@@ -37,9 +37,12 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="cadastroCliente.jsp">Cadastrar Cliente</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="consultarCliente.jsp">Consultar Clientes</a>
+                                <form action='listarClientes' method="POST">
+                                    <input type="hidden" name="operacao" value="LISTARCLIENTES">
+                                    <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
+                                    <input class="dropdown-item" type="submit" value="Listar Clientes" style="width: 220.72px">
+                                </form>
                                 <div class="dropdown-divider"></div>
-
                             </div>
                         </li>
                     </ul>

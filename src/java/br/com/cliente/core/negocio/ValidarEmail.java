@@ -18,11 +18,11 @@ public class ValidarEmail implements IStrategy {
     public String processar(EntidadeDominio entidade) {
         System.out.println("erro ndddda fachada ok?");
         Cliente cliente = (Cliente) entidade;
-        String msg = null;
+        String msg = "";
         boolean flag;
 
-        if (!cliente.getEmail().trim().equals("") && cliente.getEmail() != null) {
-            String email = "^([\\w\\-]+\\.)*[\\w\\- ]+@([\\w\\- ]+\\.)+([\\w\\-]{2,3})$";
+        if (cliente.getEmail() != null || !cliente.getEmail().trim().equals("")) {
+            String email = "(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
             flag = cliente.getEmail().matches(email);
 
             if (flag == false) {
@@ -30,7 +30,10 @@ public class ValidarEmail implements IStrategy {
             }
             System.out.println(msg + " cheguei no cliente dado email vv " + flag);
         }
-        System.out.println(msg + " cheguei no cliente dado email  " );
+        System.out.println(msg + " cheguei no cliente dado email  ");
+        if (msg.equals("")) {
+            return null;
+        }
         return msg;
     }
 }

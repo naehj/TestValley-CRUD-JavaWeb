@@ -20,12 +20,12 @@ public class ClienteDadosObrigatorios implements IStrategy {
     public String processar(EntidadeDominio entidade) {
 
         Cliente cliente = (Cliente) entidade;
-        String msg = null;
+        String msg = "";
         if (cliente.getNome() == null || cliente.getNome().trim().equals("")) {
             msg = msg + "Nome não informado.\n";
         }
 
-        if (cliente.getCpf() == null && cliente.getCpf().trim().equals("")) {
+        if (cliente.getCpf() == null || cliente.getCpf().trim().equals("")) {
             msg = msg + "CPF não informado.\n";
         }
 
@@ -131,6 +131,9 @@ public class ClienteDadosObrigatorios implements IStrategy {
             }
         }
         System.out.println(" cheguei no cliente dados eee3");
+        if (msg.equals("")) {
+            return null;
+        }
         return msg;
     }
 }

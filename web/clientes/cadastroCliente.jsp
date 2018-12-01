@@ -40,24 +40,35 @@
         <c:import url="../elements/menu-superior.jsp"/>
 
         <br/> <br/> <br/> <br/> <br/>
-        <div class="container">	
+        <div class="container">
+            <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
+            <c:if test="${not empty mensagem}">
+                <div class="alert alert-${status} alert-dismissible fade show"
+                     role="alert">
+                    ${mensagem}
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:if>
             <h1>Cadastrar Cliente</h1>
             <form action='salvar' method="POST">
                 <div class="form-group row">
                     <label for="nome" class="col-2 col-form-label">Nome:</label>
                     <div class="col-5">
-                        <input class="form-control" type="text" id="nome" name="nome" required="true">
+                        <input class="form-control" type="text" id="nome" name="nome">
                     </div>
                     <label for="genero" class="col-2 col-form-label">Gênero:</label>
                     <div class="col-2">
-                        <input class="form-control" type="text" id="nome" name="genero" required="true">
+                        <input class="form-control" type="text" id="nome" name="genero">
                     </div>
                 </div>
                 <div class="form-group row">
 
                     <label for="cpf" class="col-2 col-form-label">CPF:</label>
                     <div class="col-5">
-                        <input class="form-control" type="text" id="cpf" name="cpf" required="true">
+                        <input class="form-control" type="text" id="cpf" name="cpf">
                     </div>
                     <label for="dtNasc" class="col-2 col-form-label">Data Nascimento:</label>
                     <div class="col-3">
@@ -69,11 +80,11 @@
 
                     <label for="email" class="col-2 col-form-label">E-mail:</label>
                     <div class="col-4">
-                        <input class="form-control" type="text" id="email" name="email" required="true">
+                        <input class="form-control" type="text" id="email" name="email">
                     </div>
                     <label for="senha" class="col-2 col-form-label">Senha:</label>
                     <div class="col-4">
-                        <input class="form-control" type="password" id="senha" name="senha" required="true">
+                        <input class="form-control" type="password" id="senha" name="senha">
                     </div>
 
                 </div>
@@ -109,14 +120,14 @@
                 <div class="form-group row">
                     <label for="cep" class="col-2 col-form-label">CEP:</label>
                     <div class="col-2">
-                        <input class="form-control" type="text" id="cepC" name="cepC" required="true">
+                        <input class="form-control" type="text" id="cepC" name="cepC">
                     </div>
                 </div>
                 <div class="form-group row">
 
                     <label for="logradouro" class="col-2 col-form-label">Logradouro:</label>
                     <div class="col-5">
-                        <input class="form-control" type="text" id="logradouroC" name="logradouroC" required="true">
+                        <input class="form-control" type="text" id="logradouroC" name="logradouroC">
                     </div>
                     <label for="numeroRes" class="col-2 col-form-label">Número:</label>
                     <div class="col-2">
@@ -127,11 +138,11 @@
                 <div class="form-group row">
                     <label for="logradouro" class="col-2 col-form-label">Tipo de Logradouro:</label>
                     <div class="col-4">
-                        <input class="form-control" type="text" id="tipo_logradouroC" name="tipo_logradouroC" required="true">
+                        <input class="form-control" type="text" id="tipo_logradouroC" name="tipo_logradouroC">
                     </div>
                     <label for="logradouro" class="col-2 col-form-label">Tipo de Residência:</label>
                     <div class="col-4">
-                        <input class="form-control" type="text" id="tipo_residenciaC" name="tipo_residenciaC" required="true">
+                        <input class="form-control" type="text" id="tipo_residenciaC" name="tipo_residenciaC">
                     </div>
                 </div>
 
@@ -177,14 +188,14 @@
                 <div class="form-group row">
                     <label for="cep" class="col-2 col-form-label">CEP:</label>
                     <div class="col-2">
-                        <input class="form-control" type="text" id="cepE" name="cepE" required="true">
+                        <input class="form-control" type="text" id="cepE" name="cepE">
                     </div>
                 </div>
                 <div class="form-group row">
 
                     <label for="logradouro" class="col-2 col-form-label">Logradouro:</label>
                     <div class="col-5">
-                        <input class="form-control" type="text" id="logradouroE" name="logradouroE" required="true">
+                        <input class="form-control" type="text" id="logradouroE" name="logradouroE">
                     </div>
                     <label for="numeroRes" class="col-2 col-form-label">Número:</label>
                     <div class="col-2">
@@ -196,11 +207,11 @@
                 <div class="form-group row">
                     <label for="logradouro" class="col-2 col-form-label">Tipo de Logradouro:</label>
                     <div class="col-4">
-                        <input class="form-control" type="text" id="tipo_logradouroC" name="tipo_logradouroE" required="true">
+                        <input class="form-control" type="text" id="tipo_logradouroC" name="tipo_logradouroE">
                     </div>
                     <label for="logradouro" class="col-2 col-form-label">Tipo de Residência:</label>
                     <div class="col-4">
-                        <input class="form-control" type="text" id="tipo_residenciaC" name="tipo_residenciaE" required="true">
+                        <input class="form-control" type="text" id="tipo_residenciaC" name="tipo_residenciaE">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -244,10 +255,6 @@
                 <input type="hidden" name="operacao" value="SALVAR">
                 <input type='submit' class="btn btn-primary" name='Salvar' value='Salvar' />
                 <br/>
-                <c:if test="${mensagem != null}">
-                    <br/>
-                    <p>${mensagem}</p>
-                </c:if>
             </form>
             <br/>
             <br/>

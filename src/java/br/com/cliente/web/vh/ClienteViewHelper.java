@@ -82,126 +82,48 @@ public class ClienteViewHelper implements IViewHelper {
             String tipo_ResidenciaE = request.getParameter("tipo_residenciaE");
 
             //Setando os valores do cliente
-            if (nome != null && !nome.trim().equals("")) {
-                cliente.setNome(nome);
-            }
-
-            if (cpf != null && !cpf.trim().equals("")) {
-                cliente.setCpf(cpf);
-            }
-
-            if (email != null && !email.trim().equals("")) {
-                cliente.setEmail(email);
-            }
-
-            if (genero != null && !genero.trim().equals("")) {
-                cliente.setGenero(genero);
-            }
-
-            if (senha != null && !senha.trim().equals("")) {
-                cliente.setSenha(senha);
-            }
-
-            if (dtNascimento != null && !dtNascimento.trim().equals("")) {
-                cliente.setDtNascimento(ConverteDate.converteStringDate(dtNascimento));
-            }
+            cliente.setNome(nome);
+            cliente.setCpf(cpf);
+            cliente.setEmail(email);
+            cliente.setGenero(genero);
+            cliente.setSenha(senha);
+            cliente.setDtNascimento(ConverteDate.converteStringDate(dtNascimento));
 
             //Setando os valores do primeiro cartão de crédito
-            if (numeroCartao != null && !numeroCartao.trim().equals("")) {
-                cartao.setNumero(numeroCartao);
-            }
-
-            if (codigo != null && !codigo.trim().equals("")) {
-                cartao.setCodigo(codigo);
-            }
-
-            if (bandeira != null && !bandeira.trim().equals("")) {
-                cartao.setBandeira(bandeira);
-            }
-            if (nomeCartao != null && !nomeCartao.trim().equals("")) {
-                cartao.setNome(nomeCartao);
-            }
+            cartao.setNumero(numeroCartao);
+            cartao.setCodigo(codigo);
+            cartao.setBandeira(bandeira);
+            cartao.setNome(nomeCartao);
             HashSet<CartaoCredito> cartoes = new HashSet<>();
             cartoes.add(cartao);
 
             cliente.setCartaoCredito(cartoes);
 
             //Setando os valores do endereço de cobrança
-            if (logradouroC != null && !logradouroC.trim().equals("")) {
-                endereco.setLogradouro(logradouroC);
-            }
-
-            if (numeroResC != null && !numeroResC.trim().equals("")) {
-                endereco.setNumero(numeroResC);
-            }
-
-            if (complementoC != null && !complementoC.trim().equals("")) {
-                endereco.setComplemento(complementoC);
-            }
-
-            if (cepC != null && !cepC.trim().equals("")) {
-                endereco.setCep(cepC);
-            }
-            if (cidadeC != null && !cidadeC.trim().equals("")) {
-                endereco.setCidade(cidadeC);
-            }
-
-            if (estadoC != null && !estadoC.trim().equals("")) {
-                endereco.setEstado(estadoC);
-            }
-
-            if (paisC != null && !paisC.trim().equals("")) {
-                endereco.setPais(paisC);
-            }
-
-            if (tipo_LogradouroC != null && !tipo_LogradouroC.trim().equals("")) {
-                endereco.setTipoLogradouro(tipo_LogradouroC);
-            }
-
-            if (tipo_ResidenciaC != null && !tipo_ResidenciaC.trim().equals("")) {
-                endereco.setTipoResidencia(tipo_ResidenciaC);
-            }
+            endereco.setLogradouro(logradouroC);
+            endereco.setNumero(numeroResC);
+            endereco.setComplemento(complementoC);
+            endereco.setCep(cepC);
+            endereco.setCidade(cidadeC);
+            endereco.setEstado(estadoC);
+            endereco.setPais(paisC);
+            endereco.setTipoLogradouro(tipo_LogradouroC);
+            endereco.setTipoResidencia(tipo_ResidenciaC);
 
             cliente.setEnd_De_Cobranca(endereco);
             System.out.println(cliente.getEnd_De_Cobranca().getCidade());
 
             //Setando os valores do primeiro endereço de entrega
             endereco = new Endereco();
-
-            if (logradouroE != null && !logradouroE.trim().equals("")) {
-                endereco.setLogradouro(logradouroE);
-            }
-
-            if (numeroResE != null && !numeroResE.trim().equals("")) {
-                endereco.setNumero(numeroResE);
-            }
-
-            if (complementoE != null && !complementoE.trim().equals("")) {
-                endereco.setComplemento(complementoE);
-            }
-
-            if (cepE != null && !cepE.trim().equals("")) {
-                endereco.setCep(cepE);
-            }
-            if (cidadeE != null && !cidadeE.trim().equals("")) {
-                endereco.setCidade(cidadeE);
-            }
-
-            if (estadoE != null && !estadoE.trim().equals("")) {
-                endereco.setEstado(estadoE);
-            }
-
-            if (paisE != null && !paisE.trim().equals("")) {
-                endereco.setPais(paisE);
-            }
-
-            if (tipo_LogradouroE != null && !tipo_LogradouroE.trim().equals("")) {
-                endereco.setTipoLogradouro(tipo_LogradouroE);
-            }
-
-            if (tipo_ResidenciaE != null && !tipo_ResidenciaE.trim().equals("")) {
-                endereco.setTipoResidencia(tipo_ResidenciaE);
-            }
+            endereco.setLogradouro(logradouroE);
+            endereco.setNumero(numeroResE);
+            endereco.setComplemento(complementoE);
+            endereco.setCep(cepE);
+            endereco.setCidade(cidadeE);
+            endereco.setEstado(estadoE);
+            endereco.setPais(paisE);
+            endereco.setTipoLogradouro(tipo_LogradouroE);
+            endereco.setTipoResidencia(tipo_ResidenciaE);
 
             HashSet<Endereco> enderecos = new HashSet<>();
             enderecos.add(endereco);
@@ -429,8 +351,9 @@ public class ClienteViewHelper implements IViewHelper {
 
         if (operacao.equals("SALVAR")) {
 
-            if (resultado.getMsg() != null) {
+            if (resultado.getMsg() != null && !resultado.getMsg().trim().equals("")) {
                 request.getSession().setAttribute("mensagem", resultado.getMsg());
+                request.getSession().setAttribute("status", "danger");
                 rd = request.getRequestDispatcher("cadastroCliente.jsp");
 
             } else {
