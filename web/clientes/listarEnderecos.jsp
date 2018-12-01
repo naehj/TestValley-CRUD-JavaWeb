@@ -71,7 +71,7 @@
                 <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
                 <li style="list-style: none; text-align: center;">
                     <button class="btn btn-circle" style= "color:#007bff" type="submit">
-                        <i class="material-icons" title="Adicionar novo apoio">add</i>
+                        <i class="material-icons" title="Adicionar novo endereço">add</i>
                     </button>
                 </li>
                 <br/>
