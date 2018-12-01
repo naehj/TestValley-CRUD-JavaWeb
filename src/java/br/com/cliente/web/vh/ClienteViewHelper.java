@@ -524,8 +524,14 @@ public class ClienteViewHelper implements IViewHelper {
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
 
             } else {
-                request.getSession().setAttribute("resultado", resultado.getEntidades());
-                request.getSession().setAttribute("mensagem", null);
+                if (resultado.getEntidades().isEmpty()) {
+                    request.getSession().setAttribute("mensagem", "Não há nenhum cliente cadastrado no sistema com este nome");
+                    request.getSession().setAttribute("resultado", null);
+                    request.getSession().setAttribute("status", "danger");
+                } else {
+                    request.getSession().setAttribute("resultado", resultado.getEntidades());
+                    request.getSession().setAttribute("mensagem", null);
+                }
 
                 rd = request.getRequestDispatcher("listarClientes.jsp");
             }

@@ -32,6 +32,13 @@
         <div class="form-group" style="float: right">
             <div class="form-group row">
                 <form action='listarCartoes' method="POST">
+                    <input type="hidden" name="operacao" value="LISTARCLIENTES">
+                    <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
+                    <input class="btn btn-primary" type="submit" value="Listar Clientes" style="width: 220.72px">
+                </form>
+            </div>
+            <div class="form-group row">
+                <form action='listarClientes' method="POST">
                     <input type="hidden" name="operacao" value="LISTARCARTOES">
                     <input type="hidden" name="idCliente" value="${resultado.get(0).id}"/>
                     <input class="btn btn-primary" type="submit" value="Listar Cartões" style="width: 220.72px">

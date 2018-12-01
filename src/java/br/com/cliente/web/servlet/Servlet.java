@@ -58,6 +58,7 @@ public class Servlet extends HttpServlet {
         commands.put("ATUALIZAR", new AtualizarCommand());
         commands.put("AUTENTICAR", new ConsultarCommand());
         commands.put("LISTARCARTOES", new ConsultarCommand());
+        commands.put("LISTARCLIENTES", new ConsultarCommand());
         commands.put("LISTARENDERECOS", new ConsultarCommand());
         commands.put("LISTARFILTRO", new FiltrarCommand());
         commands.put("NOVOCC", new ConsultarCommand());
@@ -76,6 +77,7 @@ public class Servlet extends HttpServlet {
         vhs.put("/CRUD_JavaWeb/clientes/filtrar", new ClienteViewHelper());
         vhs.put("/CRUD_JavaWeb/clientes/autenticar", new ClienteViewHelper());
         vhs.put("/CRUD_JavaWeb/clientes/listarCartoes", new ClienteViewHelper());
+        vhs.put("/CRUD_JavaWeb/clientes/listarClientes", new ClienteViewHelper());
         vhs.put("/CRUD_JavaWeb/clientes/listarEnderecos", new ClienteViewHelper());
         vhs.put("/CRUD_JavaWeb/clientes/excluir", new ClienteViewHelper());
         vhs.put("/CRUD_JavaWeb/clientes/preAtualizar", new ClienteViewHelper());
