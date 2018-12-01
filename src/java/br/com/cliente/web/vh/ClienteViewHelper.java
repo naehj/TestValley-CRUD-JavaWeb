@@ -525,7 +525,7 @@ public class ClienteViewHelper implements IViewHelper {
 
             } else {
                 if (resultado.getEntidades().isEmpty()) {
-                    request.getSession().setAttribute("mensagem", "Não há nenhum cliente cadastrado no sistema com este nome");
+                    request.getSession().setAttribute("mensagem", "Não há nenhum cliente cadastrado no sistema com este nome!");
                     request.getSession().setAttribute("resultado", null);
                     request.getSession().setAttribute("status", "danger");
                 } else {

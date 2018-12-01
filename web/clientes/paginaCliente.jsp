@@ -18,17 +18,6 @@
         <c:import url="../elements/menu-superior.jsp"/>
 
         <br/> <br/> <br/> <br/> <br/>
-        <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
-        <c:if test="${not empty mensagem}">
-            <div class="alert alert-${status} alert-dismissible fade show"
-                 role="alert">
-                ${mensagem}
-                <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </c:if>
         <div class="form-group" style="float: right">
             <div class="form-group row">
                 <form action='listarCartoes' method="POST">
@@ -71,6 +60,17 @@
             </div>
         </div>
         <div class="container">	
+            <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
+            <c:if test="${not empty mensagem}">
+                <div class="alert alert-${status} alert-dismissible fade show"
+                     role="alert">
+                    ${mensagem}
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:if>
             <h1>Cliente</h1>
             <br>
 

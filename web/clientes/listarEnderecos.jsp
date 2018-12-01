@@ -18,18 +18,18 @@
         <c:import url="../elements/menu-superior.jsp"/>
 
         <br/> <br/> <br/> <br/> <br/>
-        <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
-        <c:if test="${not empty mensagem}">
-            <div class="alert alert-${status} alert-dismissible fade show"
-                 role="alert">
-                ${mensagem}
-                <button type="button" class="close" data-dismiss="alert"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </c:if>F
         <div class="container">
+            <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
+            <c:if test="${not empty mensagem}">
+                <div class="alert alert-${status} alert-dismissible fade show"
+                     role="alert">
+                    ${mensagem}
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:if>
             <h1>Endereços de Entrega</h1>
 
             <c:forEach var="endereco" items="${resultado.get(0).end_De_Entrega}">
