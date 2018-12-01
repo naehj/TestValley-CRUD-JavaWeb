@@ -419,6 +419,8 @@ public class ClienteViewHelper implements IViewHelper {
             } else {
 
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Cliente cadastrado com sucesso!");
+                request.getSession().setAttribute("status", "success");
                 //request.getSession().setAttribute("auditoria", resultado.getEntidade());
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
             }
