@@ -141,6 +141,8 @@ public class CartaoCreditoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Cartão cadastrado com sucesso!");
+                request.getSession().setAttribute("status", "success");
 
                 rd = request.getRequestDispatcher("listarCartoes.jsp");
             }
@@ -158,11 +160,13 @@ public class CartaoCreditoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Cartão atualizado com sucesso!");
+                request.getSession().setAttribute("status", "success");
 
                 rd = request.getRequestDispatcher("listarCartoes.jsp");
             }
         }
-        
+
         if (operacao.equals("PREATUALIZAR")) {
             if (resultado.getMsg() != null) {
 
@@ -190,6 +194,8 @@ public class CartaoCreditoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Cartão excluído com sucesso!");
+                request.getSession().setAttribute("status", "success");
 
                 rd = request.getRequestDispatcher("listarCartoes.jsp");
             }

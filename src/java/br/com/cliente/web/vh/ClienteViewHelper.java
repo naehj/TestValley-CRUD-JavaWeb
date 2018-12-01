@@ -436,6 +436,8 @@ public class ClienteViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Cliente atualizado com sucesso!");
+                request.getSession().setAttribute("status", "success");
                 //request.getSession().setAttribute("auditoria", resultado.getEntidade());
                 rd = request.getRequestDispatcher("paginaCliente.jsp");
             }

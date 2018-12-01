@@ -181,6 +181,8 @@ public class EnderecoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Endereço cadastrado com sucesso!");
+                request.getSession().setAttribute("status", "success");
                 rd = request.getRequestDispatcher("listarEnderecos.jsp");
             }
         }
@@ -197,6 +199,8 @@ public class EnderecoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Endereço atualizado com sucesso!");
+                request.getSession().setAttribute("status", "success");
                 if (request.getRequestURI().contains("Cobranca")) {
                     rd = request.getRequestDispatcher("paginaCliente.jsp");
                 } else if (request.getRequestURI().contains("Entrega")) {
@@ -242,6 +246,8 @@ public class EnderecoViewHelper implements IViewHelper {
                 cliente.setId(Integer.parseInt(request.getParameter("idCliente")));
                 resultado = consulta.execute(cliente);
                 request.getSession().setAttribute("resultado", resultado.getEntidades());
+                request.getSession().setAttribute("mensagem", "Endereço excluído com sucesso!");
+                request.getSession().setAttribute("status", "success");
 
                 rd = request.getRequestDispatcher("listarEnderecos.jsp");
             }
