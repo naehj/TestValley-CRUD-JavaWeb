@@ -17,7 +17,7 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center">Sign In</h5>
-                            <form class="form-signin" method="POST" action="clientes/autenticar">
+                            <form class="form-signin" method="POST" action="/CRUD_JavaWeb/clientes/autenticar">
                                 <div class="form-label-group">
                                     <input type="email" id="inputEmail" class="form-control" placeholder="E-mail " required autofocus name="email">
                                     <label for="inputEmail">E-mail </label>
